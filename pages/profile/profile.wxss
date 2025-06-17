@@ -85,8 +85,8 @@
   color: #333;
   text-align: right;
   position: relative;
-  padding-right: 40rpx;
-  margin-left: 20rpx;
+  padding-right: 45rpx;
+  margin-left: 40rpx;
   max-width: 70%;
 }
 

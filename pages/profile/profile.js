@@ -1,7 +1,7 @@
 Page({
   data: {
     avatar: '/utils/images/default.png',
-    name: '姓名',
+    name: '卡路里杀手',
     sex: '',
     age: '',
     weight: '',
