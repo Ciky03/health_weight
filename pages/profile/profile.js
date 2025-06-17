@@ -22,14 +22,53 @@ Page({
     return result;
   },
 
-  // 性别输入验证
-  onSexInput(e) {
+  // 年龄输入验证（只能输入正整数）
+  onAgeInput(e) {
     const value = e.detail.value;
-    if (value !== '男' && value !== '女' && value !== '') {
-      // 如果输入的不是"男"或"女"，保持原值不变
-      return this.data.sex;
+    // 如果输入的不是数字或是负数，保持原值不变
+    if (!/^\d*$/.test(value) || Number(value) < 0) {
+      return this.data.age;
     }
-    // 如果输入正确，更新值
+    return value;
+  },
+
+  // 体重输入验证（只能输入正数，可以有小数）
+  onWeightInput(e) {
+    const value = e.detail.value;
+    // 如果输入的不是数字或是负数，保持原值不变
+    if (!/^\d*\.?\d*$/.test(value) || Number(value) < 0) {
+      return this.data.weight;
+    }
+    return value;
+  },
+
+  // 身高输入验证（只能输入正数，可以有小数）
+  onHeightInput(e) {
+    const value = e.detail.value;
+    // 如果输入的不是数字或是负数，保持原值不变
+    if (!/^\d*\.?\d*$/.test(value) || Number(value) < 0) {
+      return this.data.height;
+    }
+    return value;
+  },
+
+  // 增减目标输入验证（可以输入正负数，可以有小数）
+  onWeekTargetInput(e) {
+    const value = e.detail.value;
+    // 如果输入的不是数字（可以是负数），保持原值不变
+    if (!/^-?\d*\.?\d*$/.test(value)) {
+      return this.data.weekTarget;
+    }
+    return value;
+  },
+
+  // 卡路里目标输入验证（只能输入正数，可以有小数）
+  onCalorieTargetInput(e) {
+    const value = e.detail.value;
+    // 如果输入的不是数字或是负数，保持原值不变
+    if (!/^\d*\.?\d*$/.test(value) || Number(value) < 0) {
+      return this.data.calorieTarget;
+    }
     return value;
   },
 
