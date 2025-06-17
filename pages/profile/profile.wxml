@@ -7,7 +7,7 @@
     <view class="form-item">
       <text>性别</text>
       <view class="input-wrapper">
-        <input value="{{sex}}" placeholder="请输入性别"/>
+        <input value="{{sex}}" placeholder="请输入性别" bindinput="onSexInput"/>
         <image class="edit-icon" src="/utils/images/edit.png" mode="aspectFit"></image>
       </view>
     </view>

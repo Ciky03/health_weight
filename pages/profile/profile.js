@@ -22,6 +22,17 @@ Page({
     return result;
   },
 
+  // 性别输入验证
+  onSexInput(e) {
+    const value = e.detail.value;
+    if (value !== '男' && value !== '女' && value !== '') {
+      // 如果输入的不是"男"或"女"，保持原值不变
+      return this.data.sex;
+    }
+    // 如果输入正确，更新值
+    return value;
+  },
+
   // 活动程度选择改变事件
   onActivityLevelChange(e) {
     const index = e.detail.value;
