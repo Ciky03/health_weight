@@ -1,0 +1,65 @@
+<view class="container">
+  <view class="avatar-section">
+    <image class="avatar" src="{{avatar}}" mode="aspectFill" bindtap="onAvatarTap"></image>
+    <view class="name">{{name}}</view>
+  </view>
+  <view class="form-section">
+    <view class="form-item">
+      <text>性别</text>
+      <view class="input-wrapper">
+        <input value="{{sex}}" placeholder="请输入性别"/>
+        <image class="edit-icon" src="/utils/images/edit.png" mode="aspectFit"></image>
+      </view>
+    </view>
+    <view class="form-item">
+      <text>年龄</text>
+      <view class="input-wrapper">
+        <input type="number" value="{{age}}" placeholder="请输入年龄"/>
+        <image class="edit-icon" src="/utils/images/edit.png" mode="aspectFit"></image>
+      </view>
+    </view>
+    <view class="form-item">
+      <text>体重(kg)</text>
+      <view class="input-wrapper">
+        <input type="digit" value="{{weight}}" placeholder="请输入体重"/>
+        <image class="edit-icon" src="/utils/images/edit.png" mode="aspectFit"></image>
+      </view>
+    </view>
+    <view class="form-item">
+      <text>身高(cm)</text>
+      <view class="input-wrapper">
+        <input type="digit" value="{{height}}" placeholder="请输入身高"/>
+        <image class="edit-icon" src="/utils/images/edit.png" mode="aspectFit"></image>
+      </view>
+    </view>
+    <view class="form-item">
+      <text>一周体重增减量目标(kg)</text>
+      <view class="input-wrapper">
+        <input type="digit" value="{{weekTarget}}" placeholder="请输入目标"/>
+        <image class="edit-icon" src="/utils/images/edit.png" mode="aspectFit"></image>
+      </view>
+    </view>
+    <view class="form-item">
+      <text>活动程度</text>
+      <picker mode="selector" bindchange="onActivityLevelChange" value="{{activityLevelIndex}}" range="{{activityLevels}}">
+        <view class="picker {{activityLevel ? '' : 'placeholder'}}">
+          {{activityLevel || '请选择活动程度'}}
+        </view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text>每日卡路里目标(千卡)</text>
+      <view class="input-wrapper">
+        <input type="digit" value="{{calorieTarget}}" placeholder="请输入卡路里目标"/>
+        <image class="edit-icon" src="/utils/images/edit.png" mode="aspectFit"></image>
+      </view>
+    </view>
+    <view class="form-item">
+      <text>推荐每日卡路里目标(千卡)</text>
+      <input value="{{suggestedCalorie}}" disabled/>
+    </view>
+  </view>
+  <view class="button-section">
+    <button class="save-button" type="primary">保存</button>
+  </view>
+</view>
