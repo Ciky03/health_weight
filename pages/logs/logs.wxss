@@ -54,7 +54,7 @@ page {
 }
 
 .view-type .active {
-  background: #007AFF;
+  background: #f3ae58;
   color: #fff;
 }
 

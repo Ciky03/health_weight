@@ -24,9 +24,9 @@
     <view class="info-card__weight-loss">
       <text class="info-card__weight-loss-status">减重中</text>
       <view class="info-card__weight-progress">
-        <text>80.2</text>
+        <text>80.2kg</text>
         <progress percent="50" stroke-width="6" activeColor="#f3ae58" backgroundColor="#f0f0f0" border-radius="5" class="weight-progress-bar"></progress>
-        <text>70.0</text>
+        <text>70.0kg</text>
       </view>
     </view>
   </view>
