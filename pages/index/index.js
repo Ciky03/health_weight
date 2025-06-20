@@ -1,49 +1,49 @@
 // index.js
-const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
+const util = require('../../utils/util.js');
 
 Page({
   data: {
-    motto: 'World',
-    userInfo: {
-      avatarUrl: defaultAvatarUrl,
-      nickName: '',
-    },
-    hasUserInfo: false,
-    canIUseGetUserProfile: wx.canIUse('getUserProfile'),
-    canIUseNicknameComp: wx.canIUse('input.type.nickname'),
+    date: '',
+    fireIcon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMkM4LjEzIDIgNSA1LjEzIDUgOUM1IDEyLjA0IDcuOTQgMTQuODMgMTAuNjEgMTYuMjJDOC44NCAxNi4zNCAxMS4wMiAxNi41MyAxMS4xMyAxNi43NkMxMS42NiAxNy44NyAxMS44MyAxOS40NCAxMiAyMkMxMi4xNyAxOS40NCAxMi4zNCAxNy44NyAxMi44NyAxNi43NkMxMi45OCAxNi41MyAxMy4xNiAxNi4zNCAxMy4zOSAxNi4yMkMxNi4wNiAxNC44MyAxOSAxMi4wNCAxOSAxOUMxOSA1LjEzIDE1Ljg3IDIgMTIgMloiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4=',
+    cameraIcon: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEyIDE1QzEzLjY1NjkgMTUgMTUgMTMuNjU2OSAxNSAxMkMxNSAxMC4zNDMxIDEzLjY1NjkgOSAxMiA5QzEwLjM0MzEgOSAxMCAxMC4zNDMxIDEwIDEyQzEwIDEzLjY1NjkgMTAuMzQzMSAxNSAxMiAxNVoiIGZpbGw9ImJsYWNrIi8+PHBhdGggZD0iTTIgN1YxN0MyIDE4LjEwNDYgMi44OTU0MyAxOSA0IDE5SDIwQzIxLjEwNDYgMTkgMjIgMTguMTA0NiAyMiAxN1Y3QzIyIDUuODk1NDMgMjEuMTA0NiA1IDIwIDVIMTcuODI4NEMxNy40MjY0IDUgMTcuMDM5OCA0Ljg2MjAxIDE2LjczNzMgNC42MDk5TDE1LjI2MjcgMy4zOTAxQzE0LjU0MjEgMi43NjY4NiAxMy41NjEyIDIuNSAxMi41NTI4IDIuNUgxMS40NDcyQzEwLjQzODggMi41IDkuNDU3ODkgMi43NjY4NiA4LjczNzMgMy4zOTAxTDcuMjYyNyA0LjYwOTlDNi45NjAyNSA0Ljg2MjAxIDYuNTczNjIgNSA2LjE3MTU3IDVINEEyLjg5NTQzIDUgMiA1uODk1NDMgMiA3WiIgZmlsbD0iYmxhY2siLz48L3N2Zz4=',
   },
-  bindViewTap() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+
+  onLoad: function () {
+    this.setCurrentDate();
+    this.timer = setInterval(() => {
+      this.setCurrentDate();
+    }, 60000);
   },
-  onChooseAvatar(e) {
-    const { avatarUrl } = e.detail
-    const { nickName } = this.data.userInfo
+
+  onUnload: function() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+  },
+
+  setCurrentDate: function () {
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    const week = ['日', '一', '二', '三', '四', '五', '六'][now.getDay()];
+    const hour = util.formatNumber(now.getHours());
+    const minute = util.formatNumber(now.getMinutes());
     this.setData({
-      "userInfo.avatarUrl": avatarUrl,
-      hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
-    })
+      date: `${month}月${day}日 周${week} ${hour}:${minute}`
+    });
   },
-  onInputChange(e) {
-    const nickName = e.detail.value
-    const { avatarUrl } = this.data.userInfo
-    this.setData({
-      "userInfo.nickName": nickName,
-      hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
-    })
+
+  takePhoto: function() {
+    wx.showToast({
+      title: '拍照识别',
+      icon: 'none'
+    });
   },
-  getUserProfile(e) {
-    // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
-    wx.getUserProfile({
-      desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-      success: (res) => {
-        console.log(res)
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    })
-  },
+
+  manualInput: function() {
+    wx.showToast({
+      title: '手动搜索',
+      icon: 'none'
+    });
+  }
 })
