@@ -3,11 +3,7 @@ const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia0
 
 Page({
   data: {
-<<<<<<< Updated upstream
-    motto: 'Hello World22',
-=======
     motto: 'World',
->>>>>>> Stashed changes
     userInfo: {
       avatarUrl: defaultAvatarUrl,
       nickName: '',
