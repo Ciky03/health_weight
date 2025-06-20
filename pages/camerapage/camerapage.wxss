@@ -1,0 +1,164 @@
+.camerapage-root {
+  background: #f7f7f7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-bar {
+  height: 90rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 20rpx;
+  background: #fff;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03);
+}
+.back-btn {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-bar-right {
+  flex: 1;
+}
+
+.image-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f7f7f7;
+  padding: 30rpx 0 10rpx 0;
+  min-height: 200rpx;
+  max-height: 340rpx;
+}
+.preview-image {
+  width: 70vw;
+  max-width: 500rpx;
+  max-height: 320rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 24rpx rgba(0,0,0,0.08);
+  object-fit: contain;
+}
+
+.food-card {
+  background: #fff;
+  border-radius: 24rpx;
+  margin: 30rpx 20rpx 0 20rpx;
+  padding: 36rpx 30rpx 30rpx 30rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.04);
+}
+.food-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 10rpx;
+}
+.food-unit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18rpx;
+}
+.food-unit-cal {
+  color: #aaa;
+  font-size: 26rpx;
+}
+.unit-switch {
+  display: flex;
+  border-radius: 12rpx;
+  overflow: hidden;
+  border: 1rpx solid #f3ae58;
+}
+.unit-btn {
+  padding: 6rpx 32rpx;
+  font-size: 28rpx;
+  color: #f3ae58;
+  background: #fff;
+}
+.active-unit {
+  background: #f3ae58;
+  color: #fff;
+}
+.food-amount-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 18rpx 0 10rpx 0;
+}
+.amount-btn {
+  background: #f7f7f7;
+  color: #f3ae58;
+  border: none;
+  font-size: 36rpx;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin: 0 30rpx;
+}
+.amount-value-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80rpx;
+  height: 60rpx;
+}
+.amount-value {
+  font-size: 36rpx;
+  width: 80rpx;
+  text-align: center;
+  color: #333;
+}
+.amount-input {
+  width: 80rpx;
+  height: 60rpx;
+  font-size: 32rpx;
+  border: 1rpx solid #eee;
+  border-radius: 12rpx;
+  text-align: center;
+  background: #f7f7f7;
+  color: #333;
+}
+.food-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28rpx;
+  color: #888;
+  margin-top: 10rpx;
+}
+.food-total-kcal {
+  color: #f3ae58;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+.save-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18rpx 30rpx 18rpx 30rpx;
+  box-shadow: 0 -2rpx 12rpx rgba(0,0,0,0.04);
+}
+.save-label {
+  color: #888;
+  font-size: 28rpx;
+}
+.save-value {
+  color: #f3ae58;
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-right: 20rpx;
+}
+.save-btn {
+  background: linear-gradient(90deg, #f9c270, #f3ae58);
+  color: #fff;
+  font-size: 32rpx;
+  border: none;
+  border-radius: 40rpx;
+  padding: 12rpx 60rpx;
+  font-weight: bold;
+} 

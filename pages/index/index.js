@@ -33,35 +33,39 @@ Page({
     });
   },
 
-  takePhoto: function() {
-        wx.showActionSheet({
-          itemList: ['拍摄', '从相册选择'],
-          success: (res) => {
-            if (res.tapIndex === 0) {
-              // 拍摄
-              wx.chooseImage({
-                count: 1,
-                sourceType: ['camera'],
-                success: (imgRes) => {
-                  // 这里可以处理图片 imgRes.tempFilePaths[0]
-                  wx.showToast({ title: '已选择照片', icon: 'success' });
-                }
-              });
-            } else if (res.tapIndex === 1) {
-              // 从相册选择
-              wx.chooseImage({
-                count: 1,
-                sourceType: ['album'],
-                success: (imgRes) => {
-                  // 这里可以处理图片 imgRes.tempFilePaths[0]
-                  wx.showToast({ title: '已选择照片', icon: 'success' });
-                }
-              });
-            }
-            // 取消不做处理
-          }
-        });
-      },
+  takePhoto: function() {
+    wx.showActionSheet({
+      itemList: ['拍摄', '从相册选择'],
+      success: (res) => {
+        if (res.tapIndex === 0) {
+          // 拍摄
+          wx.chooseImage({
+            count: 1,
+            sourceType: ['camera'],
+            success: (imgRes) => {
+              const path = encodeURIComponent(imgRes.tempFilePaths[0]);
+              wx.navigateTo({
+                url: `/pages/camerapage/camerapage?imagePath=${path}`
+              });
+            }
+          });
+        } else if (res.tapIndex === 1) {
+          // 从相册选择
+          wx.chooseImage({
+            count: 1,
+            sourceType: ['album'],
+            success: (imgRes) => {
+              const path = encodeURIComponent(imgRes.tempFilePaths[0]);
+              wx.navigateTo({
+                url: `/pages/camerapage/camerapage?imagePath=${path}`
+              });
+            }
+          });
+        }
+        // 取消不做处理
+      }
+    });
+  },
 
   manualInput: function() {
     wx.showToast({
