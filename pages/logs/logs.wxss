@@ -26,8 +26,7 @@ page {
   justify-content: space-between;
   align-items: center;
   padding: 20rpx;
-  border-bottom: 1rpx solid #eee;
-  background: #f8f8f8;
+  background: #fff;
 }
 
 .picker-item {
