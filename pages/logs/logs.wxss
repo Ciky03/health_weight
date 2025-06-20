@@ -1,18 +1,249 @@
-.container {
+page {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #f8f8f8;
 }
 .scrollarea {
   flex: 1;
-  padding: 20rpx;
+  overflow-y: hidden;
 }
-
 .log-item {
   margin-top: 20rpx;
   text-align: center;
-  color: #999;
-  font-size: 28rpx;
-  padding: 40rpx 0;
 }
+.log-item:last-child {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.container {
+  padding: 0;
+  background: #fff;
+}
+
+/* 日期选择器样式 */
+.date-picker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #eee;
+  background: #f8f8f8;
+}
+
+.picker-item {
+  font-size: 32rpx;
+  color: #333;
+  padding: 12rpx 30rpx;
+  background: #fff;
+  border-radius: 8rpx;
+  box-shadow: 0 2rpx 4rpx rgba(0,0,0,0.1);
+}
+
+.view-type {
+  display: flex;
+  background: #fff;
+  border-radius: 8rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 4rpx rgba(0,0,0,0.1);
+}
+
+.view-type view {
+  padding: 12rpx 40rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.view-type .active {
+  background: #007AFF;
+  color: #fff;
+}
+
+/* 日历主体样式 */
+.calendar {
+  padding: 0;
+  width: 100%;
+}
+
+.week-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  padding: 20rpx 0;
+  background: #fff;
+  border-bottom: 1rpx solid #eee;
+}
+
+.week-day {
+  font-size: 28rpx;
+  color: #999;
+  height: 60rpx;
+  line-height: 60rpx;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 10rpx 0;
+  background: #fff;
+}
+
+.day-item {
+  height: 90rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  color: #333;
+  position: relative;
+}
+
+.day-item.current {
+  font-weight: 500;
+}
+
+.day-item:not(.current) {
+  color: #ccc;
+}
+
+/* 选中状态（空心圆圈） */
+.day-item.selected::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70rpx;
+  height: 70rpx;
+  background: transparent;
+  border: 1rpx solid #333;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.day-item.selected {
+  color: #333;
+  position: relative;
+  z-index: 2;
+}
+
+.day-item.today {
+  color: #007AFF;
+  position: relative;
+  z-index: 2;
+}
+
+/* 今天的圆圈（空心） */
+.day-item.today::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70rpx;
+  height: 70rpx;
+  border: 1rpx solid #007AFF;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* 选中今天时的样式 */
+.day-item.today.selected::before {
+  border: 1rpx solid #333;
+  background: transparent;
+  z-index: 1;
+}
+
+.day-item.today.selected {
+  color: #333;
+}
+
+/* 小圆点样式 */
+.day-item.hasPoint::after {
+  content: '';
+  position: absolute;
+  bottom: 8rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8rpx;
+  height: 8rpx;
+  background: #007AFF;
+  border-radius: 50%;
+}
+
+/* 选中状态下的小圆点 */
+.day-item.selected.hasPoint::after {
+  background: #fff;
+}
+
+/* 今天被选中时的小圆点 */
+.day-item.today.selected.hasPoint::after {
+  background: #fff;
+}
+
+/* 时间段选择样式 */
+.time-slots {
+  padding: 0;
+  background: #fff;
+  width: 100%;
+}
+
+.time-slot-group {
+  border-bottom: 1rpx solid #eee;
+  width: 100%;
+}
+
+.time-slot-group:last-child {
+  border-bottom: none;
+}
+
+.time-slot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  font-size: 32rpx;
+  color: #333;
+  background: #fff;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.arrow {
+  color: #ccc;
+  font-size: 28rpx;
+  transition: transform 0.3s ease;
+}
+
+.arrow.expanded {
+  transform: rotate(90deg);
+}
+
+.time-content {
+  background: #f8f8f8;
+  height: 200rpx;
+  width: 100vw;
+  margin-left: -30rpx;
+  margin-right: -30rpx;
+}
+
+.time-item {
+  padding: 24rpx 60rpx;
+  font-size: 28rpx;
+  color: #666;
+  border-top: 1rpx solid #eee;
+}
+
+.time-item:active {
+  background: #f0f0f0;
+}
+
+/* 联系信息样式 */
+.contact-info {
+  text-align: center;
+  padding: 20rpx;
+  color: #666;
+  font-size: 28rpx;
+  background: #f8f8f8;
+}
+
