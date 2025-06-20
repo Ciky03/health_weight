@@ -52,7 +52,7 @@ Page({
             weight: profileData.weight || '',
             height: profileData.height || '',
             weekTarget: profileData.weightGoal || '',
-            activityLevel: profileData.activityLevel || that.data.activityLevels[0],
+            activityLevel: that.data.activityLevels[profileData.activityLevel] || that.data.activityLevels[0],
             activityLevelIndex: that.data.activityLevels.indexOf(profileData.activityLevel) !== -1 
               ? that.data.activityLevels.indexOf(profileData.activityLevel) 
               : 0,
