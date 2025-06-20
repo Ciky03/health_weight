@@ -16,6 +16,66 @@ Page({
     suggestedCalorie: ''
   },
 
+  onLoad: function() {
+    this.fetchUserProfile();
+  },
+
+  // 获取用户资料
+  fetchUserProfile: function() {
+    // const token = wx.getStorageSync('token');
+    // if (!token) {
+    //   console.log('未找到token，用户未登录');
+    //   return;
+    // }
+
+    const that = this;
+    wx.request({
+      url: `${config.baseUrl}/user/profile/list`,
+      method: 'GET',
+      // header: {
+      //   'Authorization': token
+      // },
+      success: function(res) {
+        console.log('获取用户资料成功:', res.data);
+        if (res.data.code === 1) {
+          const profileData = res.data.data;
+          
+          // 将数据保存到本地缓存
+          wx.setStorageSync('userProfile', profileData);
+          
+          // 更新页面数据
+          that.setData({
+            avatar: profileData.avatar || that.data.avatar,
+            name: profileData.name || that.data.name,
+            sex: that.convertSex(profileData.sex),
+            age: profileData.age || '',
+            weight: profileData.weight || '',
+            height: profileData.height || '',
+            weekTarget: profileData.weightGoal || '',
+            activityLevel: profileData.activityLevel || that.data.activityLevels[0],
+            activityLevelIndex: that.data.activityLevels.indexOf(profileData.activityLevel) !== -1 
+              ? that.data.activityLevels.indexOf(profileData.activityLevel) 
+              : 0,
+            calorieTarget: profileData.dailyCalorie || '',
+            suggestedCalorie: profileData.recommendedDailyCalorie || ''
+          });
+        } else {
+          wx.showToast({
+            title: res.data.msg || '获取资料失败',
+            icon: 'none'
+          });
+        }
+      },
+      fail: function(err) {
+        console.error('请求失败:', err);
+        wx.showToast({
+          title: '网络错误，请稍后重试',
+          icon: 'none'
+        });
+      }
+    });
+  },
+
   // 添加性别转换方法
   convertSex(sexCode) {
     console.log('转换性别，输入值:', sexCode);
