@@ -16,7 +16,101 @@ Page({
     suggestedCalorie: ''
   },
 
+  // 性别输入处理
+  onSexInput(e) {
+    const value = e.detail.value;
+    // 只允许输入"男"或"女"
+    if (value !== '男' && value !== '女' && value !== '') {
+      return this.data.sex;
+    }
+    this.setData({
+      sex: value
+    });
+    return value;
+  },
+
+  // 保存用户资料
+  onSaveProfile() {
+    const that = this;
+    
+    // 将性别转换为对应的数字代码
+    const sexCode = this.data.sex === '女' ? '0' : this.data.sex === '男' ? '1' : '';
+    
+    // 构建请求数据
+    const profileData = {
+      sex: sexCode,
+      age: this.data.age ? parseInt(this.data.age) : null,
+      weight: this.data.weight ? parseFloat(this.data.weight) : null,
+      height: this.data.height ? parseFloat(this.data.height) : null,
+      weightGoal: this.data.weekTarget ? parseFloat(this.data.weekTarget) : null,
+      activityLevel: this.data.activityLevelIndex.toString(), // 确保使用当前选择的索引
+      dailyCalorie: this.data.calorieTarget || null
+    };
+    
+    console.log('发送的请求数据:', profileData);
+
+    // 数据验证
+    if (!profileData.sex) {
+      wx.showToast({
+        title: '请选择性别',
+        icon: 'none'
+      });
+      return;
+    }
+    if (!profileData.age) {
+      wx.showToast({
+        title: '请输入年龄',
+        icon: 'none'
+      });
+      return;
+    }
+    if (!profileData.weight) {
+      wx.showToast({
+        title: '请输入体重',
+        icon: 'none'
+      });
+      return;
+    }
+    if (!profileData.height) {
+      wx.showToast({
+        title: '请输入身高',
+        icon: 'none'
+      });
+      return;
+    }
+
+    wx.request({
+      url: `${config.baseUrl}/user/profile/save`,
+      method: 'POST',
+      data: profileData,
+      success: function(res) {
+        console.log('保存用户资料成功:', res.data);
+        if (res.data.code === 1) {
+          wx.showToast({
+            title: '保存成功',
+            icon: 'success'
+          });
+          // 重新获取用户资料
+          that.fetchUserProfile();
+        } else {
+          wx.showToast({
+            title: res.data.msg || '保存失败',
+            icon: 'none'
+          });
+        }
+      },
+      fail: function(err) {
+        console.error('请求失败:', err);
+        wx.showToast({
+          title: '网络错误，请稍后重试',
+          icon: 'none'
+        });
+      }
+    });
+  },
+
   onLoad: function() {
+    console.log('页面加载时的初始数据:', this.data);
     this.fetchUserProfile();
   },
 
@@ -91,6 +185,9 @@ Page({
     if (!/^\d*$/.test(value) || Number(value) < 0) {
       return this.data.age;
     }
+    this.setData({
+      age: value
+    });
     return value;
   },
 
@@ -101,6 +198,9 @@ Page({
     if (!/^\d*\.?\d*$/.test(value) || Number(value) < 0) {
       return this.data.weight;
     }
+    this.setData({
+      weight: value
+    });
     return value;
   },
 
@@ -111,6 +211,9 @@ Page({
     if (!/^\d*\.?\d*$/.test(value) || Number(value) < 0) {
       return this.data.height;
     }
+    this.setData({
+      height: value
+    });
     return value;
   },
 
@@ -121,6 +224,9 @@ Page({
     if (!/^-?\d*\.?\d*$/.test(value)) {
       return this.data.weekTarget;
     }
+    this.setData({
+      weekTarget: value
+    });
     return value;
   },
 
@@ -131,12 +237,16 @@ Page({
     if (!/^\d*\.?\d*$/.test(value) || Number(value) < 0) {
       return this.data.calorieTarget;
     }
+    this.setData({
+      calorieTarget: value
+    });
     return value;
   },
 
   // 活动程度选择改变事件
   onActivityLevelChange(e) {
-    const index = e.detail.value;
+    const index = parseInt(e.detail.value);
+    console.log('选择的活动程度索引:', index);
     this.setData({
       activityLevelIndex: index,
       activityLevel: this.data.activityLevels[index]
