@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/camerapage/camerapage",
     "pages/logs/logs",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/food/food"
   ],
   "window": {
     "backgroundTextStyle": "light",
