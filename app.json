@@ -24,7 +24,7 @@
       },
       {
         "pagePath": "pages/logs/logs",
-        "text": "日历456",
+        "text": "日历",
         "iconPath": "utils/images/home.png",
         "selectedIconPath": "utils/images/home-active.png"
       },

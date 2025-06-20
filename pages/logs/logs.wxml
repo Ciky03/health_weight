@@ -1,6 +1,73 @@
 <!--logs.wxml-->
-<scroll-view class="scrollarea" scroll-y type="list">
-  <block wx:for="{{logs}}" wx:key="timeStamp" wx:for-item="log">
-    <view class="log-item">{{index + 1}}. {{log.date}}</view>
-  </block>
-</scroll-view>
+<view class="container">
+  <!-- 年月选择器 -->
+  <view class="date-picker">
+    <picker mode="selector" range="{{years}}" value="{{yearIndex}}" bindchange="onYearChange">
+      <view class="picker-item">{{selectedYear}}年</view>
+    </picker>
+    <picker mode="selector" range="{{months}}" value="{{monthIndex}}" bindchange="onMonthChange">
+      <view class="picker-item">{{selectedMonth}}月</view>
+    </picker>
+    <view class="view-type">
+      <view class="{{viewType === 'month' ? 'active' : ''}}" bindtap="switchViewType" data-type="month">月</view>
+      <view class="{{viewType === 'year' ? 'active' : ''}}" bindtap="switchViewType" data-type="year">年</view>
+    </view>
+  </view>
+
+  <!-- 日历主体 -->
+  <view class="calendar">
+    <!-- 星期头部 -->
+    <view class="week-header">
+      <view wx:for="{{weekDays}}" wx:key="index" class="week-day">{{item}}</view>
+    </view>
+    <!-- 日期格子 -->
+    <view class="days-grid">
+      <view wx:for="{{days}}" wx:key="index" 
+            class="day-item {{item.current ? 'current' : ''}} {{item.selected ? 'selected' : ''}} {{item.today ? 'today' : ''}}"
+            bindtap="selectDate" data-date="{{item}}">
+        {{item.day}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 时间段选择 -->
+  <view class="time-slots">
+    <view class="time-slot-group">
+      <view class="time-slot {{expandedSlot === '上午' ? 'expanded' : ''}}" bindtap="toggleTimeSlot" data-time="上午">
+        上午
+        <view class="arrow {{expandedSlot === '上午' ? 'expanded' : ''}}">></view>
+      </view>
+      <view class="time-content" wx:if="{{expandedSlot === '上午'}}">
+      </view>
+    </view>
+
+    <view class="time-slot-group">
+      <view class="time-slot {{expandedSlot === '中午' ? 'expanded' : ''}}" bindtap="toggleTimeSlot" data-time="中午">
+        中午
+        <view class="arrow {{expandedSlot === '中午' ? 'expanded' : ''}}">></view>
+      </view>
+      <view class="time-content" wx:if="{{expandedSlot === '中午'}}">
+      </view>
+    </view>
+
+    <view class="time-slot-group">
+      <view class="time-slot {{expandedSlot === '下午' ? 'expanded' : ''}}" bindtap="toggleTimeSlot" data-time="下午">
+        下午
+        <view class="arrow {{expandedSlot === '下午' ? 'expanded' : ''}}">></view>
+      </view>
+      <view class="time-content" wx:if="{{expandedSlot === '下午'}}">
+      </view>
+    </view>
+
+    <view class="time-slot-group">
+      <view class="time-slot {{expandedSlot === '晚上' ? 'expanded' : ''}}" bindtap="toggleTimeSlot" data-time="晚上">
+        晚上
+        <view class="arrow {{expandedSlot === '晚上' ? 'expanded' : ''}}">></view>
+      </view>
+      <view class="time-content" wx:if="{{expandedSlot === '晚上'}}">
+      </view>
+    </view>
+  </view>
+
+  
+</view>

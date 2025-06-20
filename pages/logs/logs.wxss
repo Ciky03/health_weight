@@ -1,16 +1,18 @@
-page {
+.container {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #f8f8f8;
 }
 .scrollarea {
   flex: 1;
-  overflow-y: hidden;
+  padding: 20rpx;
 }
+
 .log-item {
   margin-top: 20rpx;
   text-align: center;
-}
-.log-item:last-child {
-  padding-bottom: env(safe-area-inset-bottom);
+  color: #999;
+  font-size: 28rpx;
+  padding: 40rpx 0;
 }
