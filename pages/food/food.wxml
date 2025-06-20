@@ -1,20 +1,43 @@
 <view class="container">
-  <!-- 搜索栏 -->
-  <view class="search-bar">
-    <view class="input-group">
-      <input type="text" class="search-input" placeholder="食物名称" model:value="{{searchText}}" />
-    </view>
-    <view class="input-group">
-      <input type="digit" class="calorie-input" placeholder="0" model:value="{{calories}}" />
-      <text class="unit-text">千卡</text>
-    </view>
-    <view class="search-btn" bindtap="onSearch">
-      <image src="../../utils/images/search.png" mode="aspectFit" class="search-icon"></image>
-    </view>
+  <!-- 搜索栏/食物卡片 -->
+  <view class="search-bar {{selectedFood ? 'food-card' : ''}}">
+    <block wx:if="{{!selectedFood}}">
+      <view class="input-group">
+        <input type="text" class="search-input" placeholder="食物名称" model:value="{{searchText}}" />
+      </view>
+      <view class="input-group">
+        <input type="digit" class="calorie-input" placeholder="0" model:value="{{calories}}" />
+        <text class="unit-text">千卡</text>
+      </view>
+      <view class="search-btn" bindtap="onSearch">
+        <image src="../../utils/images/search.png" mode="aspectFit" class="search-icon"></image>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="food-card-content">
+        <view class="food-header">
+          <text class="food-name">{{selectedFood.name}}</text>
+          <text class="close-btn" bindtap="closeCard">×</text>
+        </view>
+                  <view class="calories-info">
+            <text class="food-calories">{{selectedFood.calories}} 千卡/100</text>
+            <view class="gram-btn">克</view>
+          </view>
+        <view class="amount-control">
+          <view class="minus-btn" bindtap="decreaseAmount">-</view>
+          <input type="number" class="amount-input" value="{{amount}}" bindinput="onAmountChange"/>
+          <view class="plus-btn" bindtap="increaseAmount">+</view>
+        </view>
+        <view class="total-row">
+          <text class="total-label">总卡路里</text>
+          <text class="total-value">{{totalCalories}} kcal</text>
+        </view>
+      </view>
+    </block>
   </view>
 
   <!-- 食物列表 -->
-  <scroll-view scroll-y class="food-list">
+  <scroll-view scroll-y class="food-list" wx:if="{{!selectedFood}}">
     <block wx:for="{{foodList}}" wx:key="id">
       <view class="food-item">
         <!-- 食物信息将在这里显示 -->
