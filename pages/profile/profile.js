@@ -1,3 +1,5 @@
+const config = require('../../config');
+
 Page({
   data: {
     avatar: '/utils/images/default.png',
@@ -94,7 +96,7 @@ Page({
             console.log('wx.login 成功:', res);
             if (res.code) {
               wx.request({
-                url: 'http://127.0.0.1:8080/user/login',
+                url: `${config.baseUrl}/user/login`,
                 header:{
                   "Content-Type": "application/json"
                 },
