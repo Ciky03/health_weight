@@ -23,6 +23,12 @@
         "selectedIconPath": "utils/images/home-active.png"
       },
       {
+        "pagePath": "pages/logs/logs",
+        "text": "日历",
+        "iconPath": "utils/images/home.png",
+        "selectedIconPath": "utils/images/home-active.png"
+      },
+      {
         "pagePath": "pages/profile/profile",
         "text": "我的",
         "iconPath": "utils/images/my.png",
