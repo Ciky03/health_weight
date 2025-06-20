@@ -64,9 +64,8 @@ Page({
       },
 
   manualInput: function() {
-    wx.showToast({
-      title: '手动搜索',
-      icon: 'none'
+    wx.navigateTo({
+      url: '/pages/food/food'
     });
   }
 })

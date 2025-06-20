@@ -1,0 +1,30 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="input-group">
+      <input type="text" class="search-input" placeholder="食物名称" model:value="{{searchText}}" />
+    </view>
+    <view class="input-group">
+      <input type="digit" class="calorie-input" placeholder="0" model:value="{{calories}}" />
+      <text class="unit-text">千卡</text>
+    </view>
+    <view class="search-btn" bindtap="onSearch">
+      <image src="../../utils/images/search.png" mode="aspectFit" class="search-icon"></image>
+    </view>
+  </view>
+
+  <!-- 食物列表 -->
+  <scroll-view scroll-y class="food-list">
+    <block wx:for="{{foodList}}" wx:key="id">
+      <view class="food-item">
+        <!-- 食物信息将在这里显示 -->
+      </view>
+    </block>
+  </scroll-view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-buttons">
+    <button class="add-btn" bindtap="onAddFood">添加食物</button>
+    <button class="save-btn" bindtap="onSaveRecord">保存记录</button>
+  </view>
+</view> 

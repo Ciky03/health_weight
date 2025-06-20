@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/food/food"
   ],
   "window": {
     "backgroundTextStyle": "light",
