@@ -33,12 +33,35 @@ Page({
     });
   },
 
-  takePhoto: function() {
-    wx.showToast({
-      title: '拍照识别',
-      icon: 'none'
-    });
-  },
+  takePhoto: function() {
+        wx.showActionSheet({
+          itemList: ['拍摄', '从相册选择'],
+          success: (res) => {
+            if (res.tapIndex === 0) {
+              // 拍摄
+              wx.chooseImage({
+                count: 1,
+                sourceType: ['camera'],
+                success: (imgRes) => {
+                  // 这里可以处理图片 imgRes.tempFilePaths[0]
+                  wx.showToast({ title: '已选择照片', icon: 'success' });
+                }
+              });
+            } else if (res.tapIndex === 1) {
+              // 从相册选择
+              wx.chooseImage({
+                count: 1,
+                sourceType: ['album'],
+                success: (imgRes) => {
+                  // 这里可以处理图片 imgRes.tempFilePaths[0]
+                  wx.showToast({ title: '已选择照片', icon: 'success' });
+                }
+              });
+            }
+            // 取消不做处理
+          }
+        });
+      },
 
   manualInput: function() {
     wx.showToast({
