@@ -10,23 +10,23 @@
     <view class="info-card__calorie">
       <text class="info-card__calorie-title">今日卡路里</text>
       <view class="info-card__calorie-value">
-        <text class="info-card__calorie-current">0</text>
-        <text class="info-card__calorie-total">/0千卡</text>
+        <text class="info-card__calorie-current">{{todayCalorie}}</text>
+        <text class="info-card__calorie-total">/{{calorieTarget}}千卡</text>
       </view>
     </view>
     <view class="info-card__progress-bar">
       <progress percent="0" stroke-width="6" activeColor="#f3ae58" backgroundColor="#f0f0f0" border-radius="5"></progress>
     </view>
     <view class="info-card__calorie-stats">
-      <text>已摄入0%</text>
-      <text>剩余0千卡</text>
+      <text>已摄入{{absorbCalorie}}%</text>
+      <text>剩余{{remainCalorie}}千卡</text>
     </view>
     <view class="info-card__weight-loss">
       <text class="info-card__weight-loss-status">减重中</text>
       <view class="info-card__weight-progress">
-        <text>80.2kg</text>
+        <text>{{weight}}kg</text>
         <progress percent="50" stroke-width="6" activeColor="#f3ae58" backgroundColor="#f0f0f0" border-radius="5" class="weight-progress-bar"></progress>
-        <text>70.0kg</text>
+        <text>{{targetWeight}}kg</text>
       </view>
     </view>
   </view>
