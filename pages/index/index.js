@@ -26,13 +26,16 @@ Page({
   // 获取每日卡路里目标
   fetchCalorieTarget: function() {
     wx.request({
-      url: `${config.baseUrl}/user/profile/calorie`,
+      url: `${config.baseUrl}/user/profile/info`,
       method: 'GET',
       success: (res) => {
         console.log('获取卡路里目标成功:', res.data);
         if (res.data.code === 1) {
           this.setData({
-            calorieTarget: res.data.data || 0
+            calorieTarget: res.data.data.dailyCalorie || 0,
+            weight: res.data.data.weight || 80.2,
+            targetWeight: (res.data.data.weight +res.data.data.weightGoal)  || 70.0
+            // TODO: 1.根据当日摄入的卡路里值计算剩余卡路里值 2.计算摄入百分比 3.设置今日卡路里值
           });
         } else {
           console.error('获取卡路里目标失败:', res.data.msg);
