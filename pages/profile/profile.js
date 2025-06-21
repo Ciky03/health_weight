@@ -13,7 +13,7 @@ Page({
     weekTarget: '',
     activityLevel: '',
     activityLevelIndex: 0,
-    activityLevels: ['久坐不动', '轻度活动', '中度活动', '重度活动', '极度活动'],
+    activityLevels: ['几乎不运动', '每周运动1-3天', '每周运动3-5天', '每周运动6-7天', '体力劳动或每天高强度训练'],
     calorieTarget: '',
     suggestedCalorie: ''
   },
@@ -145,9 +145,6 @@ Page({
             height: profileData.height || '',
             weekTarget: profileData.weightGoal || '',
             activityLevel: that.data.activityLevels[parseInt(profileData.activityLevel)] || that.data.activityLevels[0],
-            // activityLevelIndex: that.data.activityLevels.indexOf(parseInt(profileData.activityLevel)) !== -1 
-            //   ? that.data.activityLevels.indexOf(parseInt(profileData.activityLevel)) 
-            //   : 0,
             activityLevelIndex: profileData.activityLevel !== null ? parseInt(profileData.activityLevel) : 0,
             calorieTarget: profileData.dailyCalorie || '',
             suggestedCalorie: profileData.recommendedDailyCalorie || ''
