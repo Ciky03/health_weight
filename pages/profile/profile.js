@@ -5,6 +5,8 @@ Page({
     avatar: '/utils/images/default.png',
     name: '卡路里杀手',
     sex: '',
+    sexArray: ['女', '男'],
+    sexIndex: -1,
     age: '',
     weight: '',
     height: '',
@@ -16,17 +18,13 @@ Page({
     suggestedCalorie: ''
   },
 
-  // 性别输入处理
-  onSexInput(e) {
-    const value = e.detail.value;
-    // 只允许输入"男"或"女"
-    if (value !== '男' && value !== '女' && value !== '') {
-      return this.data.sex;
-    }
+  // 性别选择器改变事件
+  onSexChange(e) {
+    const index = parseInt(e.detail.value);
     this.setData({
-      sex: value
+      sexIndex: index,
+      sex: this.data.sexArray[index]
     });
-    return value;
   },
 
   // 保存用户资料
