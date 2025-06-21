@@ -77,9 +77,18 @@ Page({
       return;
     }
 
+    const token = wx.getStorageSync('token');
+    if (!token) {
+      console.log('未找到token，用户未登录');
+      return;
+    }
+
     wx.request({
       url: `${config.baseUrl}/user/profile/save`,
       method: 'POST',
+      header: {
+        'token': token
+      },
       data: profileData,
       success: function(res) {
         console.log('保存用户资料成功:', res.data);
@@ -114,19 +123,19 @@ Page({
 
   // 获取用户资料
   fetchUserProfile: function() {
-    // const token = wx.getStorageSync('token');
-    // if (!token) {
-    //   console.log('未找到token，用户未登录');
-    //   return;
-    // }
+    const token = wx.getStorageSync('token');
+    if (!token) {
+      console.log('未找到token，用户未登录');
+      return;
+    }
 
     const that = this;
     wx.request({
       url: `${config.baseUrl}/user/profile/list`,
       method: 'GET',
-      // header: {
-      //   'Authorization': token
-      // },
+      header: {
+        'Authorization': token
+      },
       success: function(res) {
         console.log('获取用户资料成功:', res.data);
         if (res.data.code === 1) {
@@ -275,11 +284,11 @@ Page({
                 },
                 success(resp) {
                   console.log('请求后端成功，返回数据:', resp.data);
-                  console.log('后端返回的data字段:', resp.data.data);
                   if (resp.data.data && resp.data.data.token) {
                     // 修正token的存储
                     wx.setStorageSync('token', resp.data.data.token);
-                    console.log('后端返回的性别值:', resp.data.data.sex);
+                    console.log('token:',resp.data.data.token)
+                    console.log(wx.getStorageSync('token'))
                     const newData = {
                       avatar: resp.data.data.avatar || that.data.avatar,
                       name: resp.data.data.name || that.data.name,

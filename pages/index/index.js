@@ -1,6 +1,7 @@
 // index.js
 const util = require('../../utils/util.js');
 const config = require('../../config');
+const app = getApp();
 
 Page({
   data: {
@@ -25,9 +26,13 @@ Page({
 
   // 获取每日卡路里目标
   fetchCalorieTarget: function() {
+    const token =  app.common.getTokenFromStorageSync();
     wx.request({
       url: `${config.baseUrl}/user/profile/info`,
       method: 'GET',
+      header:{
+        'token': token
+      },
       success: (res) => {
         console.log('获取卡路里目标成功:', res.data);
         if (res.data.code === 1) {
