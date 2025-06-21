@@ -1,4 +1,5 @@
 const config = require('../../config');
+const app = getApp();
 
 Page({
   data: {
@@ -45,7 +46,6 @@ Page({
       dailyCalorie: this.data.calorieTarget || null
     };
     
-    console.log('发送的请求数据:', profileData);
 
     // 数据验证
     if (!profileData.sex) {
@@ -77,11 +77,7 @@ Page({
       return;
     }
 
-    const token = wx.getStorageSync('token');
-    if (!token) {
-      console.log('未找到token，用户未登录');
-      return;
-    }
+    const token = app.common.getTokenFromStorageSync();
 
     wx.request({
       url: `${config.baseUrl}/user/profile/save`,
@@ -123,18 +119,14 @@ Page({
 
   // 获取用户资料
   fetchUserProfile: function() {
-    const token = wx.getStorageSync('token');
-    if (!token) {
-      console.log('未找到token，用户未登录');
-      return;
-    }
+    const token = app.common.getTokenFromStorageSync();
 
     const that = this;
     wx.request({
       url: `${config.baseUrl}/user/profile/list`,
       method: 'GET',
       header: {
-        'Authorization': token
+        'token': token
       },
       success: function(res) {
         console.log('获取用户资料成功:', res.data);
@@ -177,9 +169,7 @@ Page({
 
   // 添加性别转换方法
   convertSex(sexCode) {
-    console.log('转换性别，输入值:', sexCode);
     const result = sexCode == 0 ? '女' : sexCode == 1 ? '男' : '';
-    console.log('转换后的性别:', result);
     return result;
   },
 
@@ -251,7 +241,6 @@ Page({
   // 活动程度选择改变事件
   onActivityLevelChange(e) {
     const index = parseInt(e.detail.value);
-    console.log('选择的活动程度索引:', index);
     this.setData({
       activityLevelIndex: index,
       activityLevel: this.data.activityLevels[index]
@@ -287,8 +276,6 @@ Page({
                   if (resp.data.data && resp.data.data.token) {
                     // 修正token的存储
                     wx.setStorageSync('token', resp.data.data.token);
-                    console.log('token:',resp.data.data.token)
-                    console.log(wx.getStorageSync('token'))
                     const newData = {
                       avatar: resp.data.data.avatar || that.data.avatar,
                       name: resp.data.data.name || that.data.name,
