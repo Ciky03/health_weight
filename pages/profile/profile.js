@@ -144,10 +144,11 @@ Page({
             weight: profileData.weight || '',
             height: profileData.height || '',
             weekTarget: profileData.weightGoal || '',
-            activityLevel: that.data.activityLevels[profileData.activityLevel] || that.data.activityLevels[0],
-            activityLevelIndex: that.data.activityLevels.indexOf(profileData.activityLevel) !== -1 
-              ? that.data.activityLevels.indexOf(profileData.activityLevel) 
-              : 0,
+            activityLevel: that.data.activityLevels[parseInt(profileData.activityLevel)] || that.data.activityLevels[0],
+            // activityLevelIndex: that.data.activityLevels.indexOf(parseInt(profileData.activityLevel)) !== -1 
+            //   ? that.data.activityLevels.indexOf(parseInt(profileData.activityLevel)) 
+            //   : 0,
+            activityLevelIndex: profileData.activityLevel !== null ? parseInt(profileData.activityLevel) : 0,
             calorieTarget: profileData.dailyCalorie || '',
             suggestedCalorie: profileData.recommendedDailyCalorie || ''
           });
