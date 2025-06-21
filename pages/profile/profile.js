@@ -43,7 +43,7 @@ Page({
       weight: this.data.weight ? parseFloat(this.data.weight) : null,
       height: this.data.height ? parseFloat(this.data.height) : null,
       weightGoal: this.data.weekTarget ? parseFloat(this.data.weekTarget) : null,
-      activityLevel: this.data.activityLevelIndex.toString(), // 确保使用当前选择的索引
+      activityLevel: this.data.activityLevel ? this.data.activityLevelIndex.toString() : null,
       dailyCalorie: this.data.calorieTarget || null
     };
     
@@ -221,7 +221,7 @@ Page({
   onWeekTargetInput(e) {
     const value = e.detail.value;
     // 如果输入的不是数字（可以是负数），保持原值不变
-    if (!/^-?\d*\.?\d*$/.test(value)) {
+    if (!/^-?\d*\.?\d*$/.test(value) || value === 0) {
       return this.data.weekTarget;
     }
     this.setData({
@@ -234,7 +234,7 @@ Page({
   onCalorieTargetInput(e) {
     const value = e.detail.value;
     // 如果输入的不是数字或是负数，保持原值不变
-    if (!/^\d*\.?\d*$/.test(value) || Number(value) < 0) {
+    if (value === /^\d*\.?\d*$/.test(value) && Number(value) >= 0) {
       return this.data.calorieTarget;
     }
     this.setData({
