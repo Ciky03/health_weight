@@ -18,6 +18,9 @@ Page({
   },
 
   onLoad: function () {
+    // 检查登录状态
+    if (!app.common.checkLogin()) return;
+
     this.setCurrentDate();
     this.timer = setInterval(() => {
       this.setCurrentDate();
@@ -30,6 +33,11 @@ Page({
     this.setupGlobalDataObserver();
     
     this.fetchCalorieTarget(); // 获取卡路里目标
+  },
+
+  onShow: function() {
+    // 检查登录状态
+    if (!app.common.checkLogin()) return;
   },
 
   // 更新页面数据从全局变量

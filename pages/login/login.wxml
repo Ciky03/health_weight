@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="logo">
+    <image src="/utils/images/default.png" mode="aspectFit" class="logo-image"></image>
+  </view>
+  <view class="title">卡路里杀手</view>
+  <view class="subtitle">记录美食，控制卡路里</view>
+  <button class="login-btn" bindtap="handleWxLogin">
+    <image src="/utils/images/wxLogin.png" mode="aspectFit" class="wechat-icon"></image>
+    微信登录
+  </button>
+</view> 
