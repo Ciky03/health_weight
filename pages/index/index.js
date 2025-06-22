@@ -21,7 +21,48 @@ Page({
     this.timer = setInterval(() => {
       this.setCurrentDate();
     }, 60000);
+    
+    // 初始化数据
+    this.updateFromGlobalData();
+    
+    // 设置观察者，监听全局变量变化
+    this.setupGlobalDataObserver();
+    
     this.fetchCalorieTarget(); // 获取卡路里目标
+  },
+
+  // 更新页面数据从全局变量
+  updateFromGlobalData: function() {
+    const weight = parseFloat(app.globalData.weight) || 0;
+    const weekTarget = parseFloat(app.globalData.weekTarget) || 0;
+    const calorieTarget = parseFloat(app.globalData.calorieTarget) || 0;
+
+    this.setData({
+      calorieTarget: calorieTarget,
+      weight: weight,
+      targetWeight: weight + weekTarget
+    });
+  },
+
+  // 设置全局变量观察者
+  setupGlobalDataObserver: function() {
+    const that = this;
+    const originalGlobalData = app.globalData;
+    
+    // 使用Object.defineProperty为每个需要监听的属性设置getter和setter
+    ['calorieTarget', 'weight', 'weekTarget'].forEach(key => {
+      let value = originalGlobalData[key];
+      Object.defineProperty(app.globalData, key, {
+        get: function() {
+          return value;
+        },
+        set: function(newValue) {
+          value = newValue;
+          // 当全局变量改变时，更新页面数据
+          that.updateFromGlobalData();
+        }
+      });
+    });
   },
 
   // 获取每日卡路里目标
@@ -36,12 +77,12 @@ Page({
       success: (res) => {
         console.log('获取卡路里目标成功:', res.data);
         if (res.data.code === 1) {
-          this.setData({
-            calorieTarget: res.data.data.dailyCalorie || 0,
-            weight: res.data.data.weight || 80.2,
-            targetWeight: (res.data.data.weight +res.data.data.weightGoal)  || 70.0
-            // TODO: 1.根据当日摄入的卡路里值计算剩余卡路里值 2.计算摄入百分比 3.设置今日卡路里值
-          });
+          // 更新全局变量
+          app.globalData.calorieTarget = res.data.data.dailyCalorie || '0';
+          app.globalData.weight = res.data.data.weight || '0';
+          app.globalData.weekTarget = res.data.data.weightGoal || '0';
+          
+          // updateFromGlobalData会自动被调用，因为我们设置了观察者
         } else {
           console.error('获取卡路里目标失败:', res.data.msg);
         }

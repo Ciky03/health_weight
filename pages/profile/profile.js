@@ -89,6 +89,11 @@ Page({
       success: function(res) {
         console.log('保存用户资料成功:', res.data);
         if (res.data.code === 1) {
+          // 更新全局变量
+          app.globalData.calorieTarget = profileData.dailyCalorie || '0';
+          app.globalData.weight = profileData.weight || '0';
+          app.globalData.weekTarget = profileData.weightGoal || '0';
+          
           wx.showToast({
             title: '保存成功',
             icon: 'success'
@@ -135,6 +140,11 @@ Page({
           
           // 将数据保存到本地缓存
           wx.setStorageSync('userProfile', profileData);
+          
+          // 更新全局变量
+          app.globalData.calorieTarget = profileData.dailyCalorie || '0';
+          app.globalData.weight = profileData.weight || '0';
+          app.globalData.weekTarget = profileData.weightGoal || '0';
           
           // 更新页面数据
           that.setData({

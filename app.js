@@ -13,7 +13,10 @@ App({
   },
   //全局变量
   globalData: {
-    userInfo: null
+    userInfo: null,
+    calorieTarget: '0',
+    weight: '0',
+    weekTarget: '0'
   },
 
   onLaunch() {
