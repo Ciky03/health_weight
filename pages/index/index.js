@@ -13,7 +13,8 @@ Page({
     absorbCalorie:0, //已摄入卡路里百分比
     remainCalorie: 0, //剩余卡路里
     weight: 80.2,  //目前体重
-    targetWeight: 70.0 //目标体重
+    targetWeight: 70.0, //目标体重
+    weightPercent: 0
   },
 
   onLoad: function () {
@@ -36,11 +37,21 @@ Page({
     const weight = parseFloat(app.globalData.weight) || 0;
     const weekTarget = parseFloat(app.globalData.weekTarget) || 0;
     const calorieTarget = parseFloat(app.globalData.calorieTarget) || 0;
+    const targetWeight = weight + weekTarget;
+
+    // 计算体重进度条百分比
+    let weightPercent = 0;
+    if (weight !== 0 || targetWeight !== 0) {
+      weightPercent = Math.min(weight, targetWeight) / Math.max(weight, targetWeight);
+      // 转换为百分比格式（保留2位小数）
+      weightPercent = (weightPercent * 100).toFixed(2);
+    }
 
     this.setData({
       calorieTarget: calorieTarget,
       weight: weight,
-      targetWeight: weight + weekTarget
+      targetWeight: targetWeight,
+      weightPercent: weightPercent
     });
   },
 
