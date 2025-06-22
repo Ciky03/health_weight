@@ -17,6 +17,11 @@ Page({
 
   // 微信登录
   handleWxLogin: function() {
+    console.log('点击微信登录按钮');
+    wx.showLoading({
+      title: '登录中...',
+    });
+
     wx.getUserProfile({
       desc: '用于完善用户资料',
       success: (userRes) => {
@@ -44,12 +49,14 @@ Page({
                   if (resp.data.data && resp.data.data.token) {
                     // 保存token
                     wx.setStorageSync('token', resp.data.data.token);
+                    wx.hideLoading();
                     
                     // 登录成功后跳转到首页
                     wx.reLaunch({
                       url: '/pages/index/index'
                     });
                   } else {
+                    wx.hideLoading();
                     wx.showToast({
                       title: '登录失败',
                       icon: 'none'
@@ -58,6 +65,7 @@ Page({
                   }
                 },
                 fail: (err) => {
+                  wx.hideLoading();
                   wx.showToast({
                     title: '登录失败',
                     icon: 'none'
@@ -68,6 +76,7 @@ Page({
             }
           },
           fail: (err) => {
+            wx.hideLoading();
             wx.showToast({
               title: '登录失败',
               icon: 'none'
@@ -77,6 +86,7 @@ Page({
         });
       },
       fail: (err) => {
+        wx.hideLoading();
         console.error('获取用户信息失败:', err);
       }
     });

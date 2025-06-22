@@ -28,11 +28,17 @@ App({
     userInfo: null,
     calorieTarget: '0',
     weight: '0',
-    weekTarget: '0'
+    weekTarget: '0',
+    isCheckingLogin: false  // 添加标志位，防止重复检查
   },
 
   onLaunch() {
     // 检查登录状态
+    this.common.checkLogin();
+  },
+
+  onShow() {
+    // 在onShow中也检查登录状态
     this.common.checkLogin();
   }
 })
