@@ -94,6 +94,8 @@ Page({
         'token': token
       },
       success: (res) => {
+        app.common.checkTokenExpire(res.statusCode);
+        
         console.log('获取卡路里目标成功:', res.data);
         if (res.data.code === 1) {
           // 更新全局变量

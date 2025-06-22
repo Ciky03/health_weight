@@ -17,6 +17,7 @@ Page({
   },
 
   onLoad() {
+   
     // 初始化年份列表（前后5年）
     const currentYear = new Date().getFullYear()
     const years = []
@@ -37,6 +38,8 @@ Page({
     })
 
     this.generateDays()
+     // 检查登录状态
+     if (!app.common.checkLogin()) return;
   },
 
   // 生成日历天数

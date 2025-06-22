@@ -9,6 +9,8 @@ Page({
   },
 
   onLoad(options) {
+    // 检查登录状态
+    if (!app.common.checkLogin()) return;
     // 页面加载时的初始化
   },
 

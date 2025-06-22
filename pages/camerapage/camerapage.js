@@ -8,6 +8,9 @@ Page({
     showInput: false
   },
   onLoad: function(options) {
+    // 检查登录状态
+    if (!app.common.checkLogin()) return;
+
     if (options && options.imagePath) {
       this.setData({
         imagePath: decodeURIComponent(options.imagePath)

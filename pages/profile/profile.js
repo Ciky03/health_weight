@@ -87,6 +87,7 @@ Page({
       },
       data: profileData,
       success: function(res) {
+        app.common.checkTokenExpire(res.statusCode);
         console.log('保存用户资料成功:', res.data);
         if (res.data.code === 1) {
           // 更新全局变量
@@ -118,6 +119,9 @@ Page({
   },
 
   onLoad: function() {
+    // 检查登录状态
+    if (!app.common.checkLogin()) return;
+
     console.log('页面加载时的初始数据:', this.data);
     this.fetchUserProfile();
   },
@@ -134,6 +138,7 @@ Page({
         'token': token
       },
       success: function(res) {
+        app.common.checkTokenExpire(res.statusCode);
         console.log('获取用户资料成功:', res.data);
         if (res.data.code === 1) {
           const profileData = res.data.data;
