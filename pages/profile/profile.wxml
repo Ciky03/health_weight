@@ -1,6 +1,6 @@
 <view class="container">
   <view class="avatar-section">
-    <image class="avatar" src="{{avatar}}" mode="aspectFill" bindtap="onAvatarTap"></image>
+    <image class="avatar" src="{{avatar}}" mode="aspectFill"></image>
     <view class="name">{{name}}</view>
   </view>
   <view class="form-section">

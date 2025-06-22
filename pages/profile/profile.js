@@ -257,62 +257,62 @@ Page({
     });
   },
 
-  onAvatarTap() {
-    console.log('头像被点击了');
-    const that = this;
-    wx.getUserProfile({
-      desc: '用于完善用户资料',
-      success(userRes) {
-        console.log('获取用户信息成功:', userRes);
-        const { encryptedData, iv, rawData, signature } = userRes;
-        wx.login({
-          success(res) {
-            console.log('wx.login 成功:', res);
-            if (res.code) {
-              wx.request({
-                url: `${config.baseUrl}/user/login`,
-                header:{
-                  "Content-Type": "application/json"
-                },
-                method: 'POST',
-                data: {
-                  code: res.code,
-                  encryptedData,
-                  iv,
-                  signature
-                },
-                success(resp) {
-                  console.log('请求后端成功，返回数据:', resp.data);
-                  if (resp.data.data && resp.data.data.token) {
-                    // 修正token的存储
-                    wx.setStorageSync('token', resp.data.data.token);
-                    const newData = {
-                      avatar: resp.data.data.avatar || that.data.avatar,
-                      name: resp.data.data.name || that.data.name,
-                      sex: that.convertSex(resp.data.data.sex)
-                    };
-                    console.log('准备设置的新数据:', newData);
-                    that.setData(newData, () => {
-                      console.log('数据设置完成，当前数据:', that.data);
-                    });
-                  } else {
-                    console.error('后端返回数据格式不正确:', resp.data);
-                  }
-                },
-                fail(err) {
-                  console.error('请求后端失败:', err);
-                }
-              });
-            }
-          },
-          fail(err) {
-            console.error('wx.login 失败:', err);
-          }
-        });
-      },
-      fail(err) {
-        console.error('获取用户信息失败:', err);
-      }
-    });
-  }
+  // onAvatarTap() {
+  //   console.log('头像被点击了');
+  //   const that = this;
+  //   wx.getUserProfile({
+  //     desc: '用于完善用户资料',
+  //     success(userRes) {
+  //       console.log('获取用户信息成功:', userRes);
+  //       const { encryptedData, iv, rawData, signature } = userRes;
+  //       wx.login({
+  //         success(res) {
+  //           console.log('wx.login 成功:', res);
+  //           if (res.code) {
+  //             wx.request({
+  //               url: `${config.baseUrl}/user/login`,
+  //               header:{
+  //                 "Content-Type": "application/json"
+  //               },
+  //               method: 'POST',
+  //               data: {
+  //                 code: res.code,
+  //                 encryptedData,
+  //                 iv,
+  //                 signature
+  //               },
+  //               success(resp) {
+  //                 console.log('请求后端成功，返回数据:', resp.data);
+  //                 if (resp.data.data && resp.data.data.token) {
+  //                   // 修正token的存储
+  //                   wx.setStorageSync('token', resp.data.data.token);
+  //                   const newData = {
+  //                     avatar: resp.data.data.avatar || that.data.avatar,
+  //                     name: resp.data.data.name || that.data.name,
+  //                     sex: that.convertSex(resp.data.data.sex)
+  //                   };
+  //                   console.log('准备设置的新数据:', newData);
+  //                   that.setData(newData, () => {
+  //                     console.log('数据设置完成，当前数据:', that.data);
+  //                   });
+  //                 } else {
+  //                   console.error('后端返回数据格式不正确:', resp.data);
+  //                 }
+  //               },
+  //               fail(err) {
+  //                 console.error('请求后端失败:', err);
+  //               }
+  //             });
+  //           }
+  //         },
+  //         fail(err) {
+  //           console.error('wx.login 失败:', err);
+  //         }
+  //       });
+  //     },
+  //     fail(err) {
+  //       console.error('获取用户信息失败:', err);
+  //     }
+  //   });
+  // }
 }); 
