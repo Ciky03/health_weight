@@ -14,32 +14,48 @@
 
   <!-- 食品信息卡片 -->
   <view class="food-card">
-    <view class="food-title">青提乌龙茶</view>
-    <view class="food-unit-row">
-      <text class="food-unit-cal">{{unit=='份' ? '1 千卡/份' : '1 千卡/100克'}}</text>
-      <view class="unit-switch">
-        <view class="unit-btn {{unit=='份'?'active-unit':''}}" bindtap="switchUnit" data-unit="份">份</view>
-        <view class="unit-btn {{unit=='克'?'active-unit':''}}" bindtap="switchUnit" data-unit="克">克</view>
-      </view>
+    <!-- 多个食物时显示选择器 -->
+    <view wx:if="{{showFoodPicker && foods.length > 0}}" class="food-title">
+      <picker bindchange="switchFood" value="{{currentFoodIndex}}" range="{{foods}}" range-key="name">
+        <view class="picker-content">
+          {{foods[currentFoodIndex].name}}
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
     </view>
+    <!-- 单个食物时显示名称 -->
+    <view wx:elif="{{foods.length === 1}}" class="food-title">
+      {{foods[0].name}}
+    </view>
+
+    <view class="food-unit-row">
+      <text class="food-unit-cal">{{formattedCalorie}} 千卡/100克</text>
+    </view>
+
     <view class="food-amount-row">
       <button class="amount-btn" size="mini" bindtap="decrease">-</button>
       <view class="amount-value-box">
         <text wx:if="{{!showInput}}" class="amount-value" bindtap="showInputBox">{{amount}}</text>
-        <input wx:if="{{showInput}}" class="amount-input" type="number" value="{{amount}}" bindinput="inputAmount" placeholder="输入数量" focus="true" bindblur="hideInputBox" />
+        <block wx:if="{{showInput}}">
+          <input class="amount-input" type="digit" value="{{amount}}" 
+                 bindinput="inputAmount" placeholder="输入克数" focus="true" bindblur="hideInputBox" />
+        </block>
+       
       </view>
       <button class="amount-btn" size="mini" bindtap="increase">+</button>
+      <text class="unit-text">克</text>
     </view>
+
     <view class="food-total-row">
       <text>总卡路里</text>
-      <text class="food-total-kcal">{{totalKcal}} kcal</text>
+      <text class="food-total-kcal">{{totalKcal}} 千卡</text>
     </view>
   </view>
 
   <!-- 底部保存按钮 -->
   <view class="save-bar">
     <view class="save-label">总卡路里</view>
-    <view class="save-value">{{totalKcal}} kcal</view>
+    <view class="save-value">{{totalKcal}} 千卡</view>
     <button class="save-btn" bindtap="saveRecord">保存记录</button>
   </view>
 </view> 
