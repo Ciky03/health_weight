@@ -174,19 +174,64 @@ Page({
       return;
     }
     
-    // 这里可以添加保存记录的逻辑
-    const recordData = this.data.foods.map(food => ({
-      name: food.name,
-      amount: food.amount,
-      calorie: food.calorie,
-      totalCalories: (food.amount * food.calorie / 100).toFixed(1)
-    }));
+    // 构造请求数据
+    const requestData = {
+      totalCalorie: parseFloat(this.data.totalCalories),
+      foods: this.data.foods.map(food => ({
+        foodName: food.name,
+        calories: parseFloat((food.amount * food.calorie / 100).toFixed(1)),
+        amount: food.amount
+      }))
+    };
     
-    console.log('保存的记录数据:', recordData);
-    
-    wx.showToast({ 
-      title: '已保存', 
-      icon: 'success' 
+    console.log('准备发送的数据:', requestData);
+
+    // 获取token
+    const token = app.common.getTokenFromStorageSync();
+    if (!token) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      });
+      return;
+    }
+
+    // 调用后端接口
+    wx.request({
+      url: `${config.baseUrl}/calorie/intake`,
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token': token
+      },
+      data: requestData,
+      success: (res) => {
+        // 检查token是否过期
+        if (app.common.checkTokenExpire(res.statusCode)) return;
+
+        if (res.statusCode === 200) {
+          wx.showToast({ 
+            title: '记录保存成功', 
+            icon: 'success' 
+          });
+          // 保存成功后返回上一页
+          setTimeout(() => {
+            wx.navigateBack();
+          }, 1500);
+        } else {
+          wx.showToast({ 
+            title: '保存失败，请重试', 
+            icon: 'none' 
+          });
+        }
+      },
+      fail: (err) => {
+        console.error('保存记录失败:', err);
+        wx.showToast({ 
+          title: '网络错误，请重试', 
+          icon: 'none' 
+        });
+      }
     });
   }
 }); 
