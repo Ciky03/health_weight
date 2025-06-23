@@ -12,50 +12,39 @@
     <image wx:if="{{imagePath}}" src="{{imagePath}}" mode="aspectFit" class="preview-image"></image>
   </view>
 
-  <!-- 食品信息卡片 -->
-  <view class="food-card">
-    <!-- 多个食物时显示选择器 -->
-    <view wx:if="{{showFoodPicker && foods.length > 0}}" class="food-title">
-      <picker bindchange="switchFood" value="{{currentFoodIndex}}" range="{{foods}}" range-key="name">
-        <view class="picker-content">
-          {{foods[currentFoodIndex].name}}
-          <text class="picker-arrow">▼</text>
-        </view>
-      </picker>
-    </view>
-    <!-- 单个食物时显示名称 -->
-    <view wx:elif="{{foods.length === 1}}" class="food-title">
-      {{foods[0].name}}
-    </view>
+  <!-- 食品信息卡片列表 -->
+  <view class="food-cards-container">
+    <view class="food-card" wx:for="{{foods}}" wx:key="index">
+      <view class="food-title">{{item.name}}</view>
 
-    <view class="food-unit-row">
-      <text class="food-unit-cal">{{formattedCalorie}} 千卡/100克</text>
-    </view>
-
-    <view class="food-amount-row">
-      <button class="amount-btn" size="mini" bindtap="decrease">-</button>
-      <view class="amount-value-box">
-        <text wx:if="{{!showInput}}" class="amount-value" bindtap="showInputBox">{{amount}}</text>
-        <block wx:if="{{showInput}}">
-          <input class="amount-input" type="digit" value="{{amount}}" 
-                 bindinput="inputAmount" placeholder="输入克数" focus="true" bindblur="hideInputBox" />
-        </block>
-       
+      <view class="food-unit-row">
+        <text class="food-unit-cal">{{item.calorie}} 千卡/100克</text>
       </view>
-      <button class="amount-btn" size="mini" bindtap="increase">+</button>
-      <text class="unit-text">克</text>
-    </view>
 
-    <view class="food-total-row">
-      <text>总卡路里</text>
-      <text class="food-total-kcal">{{totalKcal}} 千卡</text>
+      <view class="food-amount-row">
+        <button class="amount-btn" size="mini" bindtap="decrease" data-index="{{index}}">-</button>
+        <view class="amount-value-box">
+          <text wx:if="{{!item.showInput}}" class="amount-value" bindtap="showInputBox" data-index="{{index}}">{{item.amount || 0}}</text>
+          <block wx:if="{{item.showInput}}">
+            <input class="amount-input" type="digit" value="{{item.amount || 0}}" 
+                   bindinput="inputAmount" data-index="{{index}}" placeholder="输入克数" focus="true" bindblur="hideInputBox" />
+          </block>
+        </view>
+        <button class="amount-btn" size="mini" bindtap="increase" data-index="{{index}}">+</button>
+        <text class="unit-text">克</text>
+      </view>
+
+      <view class="food-total-row">
+        <text>总卡路里</text>
+        <text class="food-total-kcal">{{item.amount * item.calorie / 100}} 千卡</text>
+      </view>
     </view>
   </view>
 
   <!-- 底部保存按钮 -->
   <view class="save-bar">
     <view class="save-label">总卡路里</view>
-    <view class="save-value">{{totalKcal}} 千卡</view>
+    <view class="save-value">{{totalCalories}} 千卡</view>
     <button class="save-btn" bindtap="saveRecord">保存记录</button>
   </view>
 </view> 

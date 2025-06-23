@@ -4,23 +4,8 @@ const config = require('../../config');
 Page({
   data: {
     imagePath: '',
-    amount: 100, // 默认100克
-    kcalPerUnit: 0, // 每克的卡路里
-    totalKcal: 0,
-    showInput: false,
     foods: [], // 识别出的食物列表
-    currentFoodIndex: 0, // 当前选中的食物索引
-    showFoodPicker: false, // 是否显示食物选择器
-    formattedCalorie: '0.0' // 格式化后的每100g卡路里值
-  },
-
-  // 更新格式化的卡路里值
-  updateFormattedCalorie: function() {
-    const currentFood = this.data.foods[this.data.currentFoodIndex] || {};
-    const calorie = currentFood.calorie_100g || 0;
-    this.setData({
-      formattedCalorie: calorie.toFixed(1)
-    });
+    totalCalories: 0 // 所有食物的总卡路里
   },
 
   onLoad: function(options) {
@@ -34,7 +19,6 @@ Page({
       // 加载图片后立即调用AI识别
       this.analyzeImage(this.data.imagePath);
     }
-    this.updateTotalKcal();
   },
 
   // 调用后端AI接口分析图片
@@ -82,15 +66,16 @@ Page({
             }
             
             if (result.foods && result.foods.length > 0) {
-              this.setData({
-                foods: result.foods,
-                showFoodPicker: result.foods.length > 1,
-                // 设置默认选中第一个食物
-                kcalPerUnit: result.foods[0].calorie_100g / 100, // 转换为每克的卡路里
-                currentFoodIndex: 0
-              }, () => {
-                this.updateFormattedCalorie(); // 更新格式化的卡路里值
-                this.updateTotalKcal();
+              // 为每个食物添加amount和showInput属性
+              const foods = result.foods.map(food => ({
+                ...food,
+                amount: 100, // 默认100克
+                showInput: false,
+                calorie: food.calorie_100g // 使用calorie_100g作为每100g的卡路里值
+              }));
+              
+              this.setData({ foods }, () => {
+                this.updateTotalCalories();
               });
             } else {
               wx.showToast({
@@ -124,59 +109,64 @@ Page({
     });
   },
 
-  // 切换选中的食物
-  switchFood: function(e) {
-    const index = parseInt(e.detail.value);
-    if (index >= 0 && index < this.data.foods.length) {
-      const food = this.data.foods[index];
-      this.setData({
-        currentFoodIndex: index,
-        kcalPerUnit: food.calorie_100g / 100, // 转换为每克的卡路里
-        amount: 100 // 重置为默认100克
-      }, () => {
-        this.updateFormattedCalorie(); // 更新格式化的卡路里值
-        this.updateTotalKcal();
-      });
-    }
-  },
-
   goBack() {
     wx.navigateBack();
   },
   
-  increase() {
-    this.setData({ amount: this.data.amount + 10 }, this.updateTotalKcal);
+  increase(e) {
+    const index = e.currentTarget.dataset.index;
+    const foods = this.data.foods;
+    foods[index].amount += 10;
+    this.setData({ foods }, () => {
+      this.updateTotalCalories();
+    });
   },
   
-  decrease() {
-    if (this.data.amount > 10) {
-      this.setData({ amount: this.data.amount - 10 }, this.updateTotalKcal);
+  decrease(e) {
+    const index = e.currentTarget.dataset.index;
+    const foods = this.data.foods;
+    if (foods[index].amount > 10) {
+      foods[index].amount -= 10;
+      this.setData({ foods }, () => {
+        this.updateTotalCalories();
+      });
     }
   },
   
-  showInputBox() {
-    this.setData({ showInput: true });
+  showInputBox(e) {
+    const index = e.currentTarget.dataset.index;
+    const foods = this.data.foods;
+    foods[index].showInput = true;
+    this.setData({ foods });
   },
   
-  hideInputBox() {
-    this.setData({ showInput: false });
+  hideInputBox(e) {
+    const index = e.currentTarget.dataset.index;
+    const foods = this.data.foods;
+    foods[index].showInput = false;
+    this.setData({ foods });
   },
   
   inputAmount(e) {
+    const index = e.currentTarget.dataset.index;
+    const foods = this.data.foods;
     let val = parseFloat(e.detail.value) || 0;
     if (val < 0) val = 0;
-    this.setData({ amount: val }, this.updateTotalKcal);
+    foods[index].amount = val;
+    this.setData({ foods }, () => {
+      this.updateTotalCalories();
+    });
   },
   
-  updateTotalKcal() {
-    let total = (this.data.kcalPerUnit * this.data.amount).toFixed(1);
-    if (isNaN(total)) total = '0.0';
-    this.setData({ totalKcal: total });
+  updateTotalCalories() {
+    const totalCalories = this.data.foods.reduce((total, food) => {
+      return total + (food.amount * food.calorie / 100);
+    }, 0);
+    this.setData({ totalCalories: totalCalories.toFixed(1) });
   },
   
   saveRecord() {
-    const currentFood = this.data.foods[this.data.currentFoodIndex];
-    if (!currentFood) {
+    if (this.data.foods.length === 0) {
       wx.showToast({ 
         title: '无可保存的食物数据', 
         icon: 'none' 
@@ -185,6 +175,15 @@ Page({
     }
     
     // 这里可以添加保存记录的逻辑
+    const recordData = this.data.foods.map(food => ({
+      name: food.name,
+      amount: food.amount,
+      calorie: food.calorie,
+      totalCalories: (food.amount * food.calorie / 100).toFixed(1)
+    }));
+    
+    console.log('保存的记录数据:', recordData);
+    
     wx.showToast({ 
       title: '已保存', 
       icon: 'success' 
