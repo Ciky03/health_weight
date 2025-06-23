@@ -15,13 +15,14 @@ App({
 
     // 检查登录状态
     checkLogin() {
-      const token = wx.getStorageSync('token');
-      if (!token) {
-        wx.reLaunch({
-          url: '/pages/login/login'
-        });
-        return false;
-      }
+      // 测试阶段,跳过token检查
+      // const token = wx.getStorageSync('token');
+      // if (!token) {
+      //   wx.reLaunch({
+      //     url: '/pages/login/login'
+      //   });
+      //   return false;
+      // }
       return true;
     },
 
