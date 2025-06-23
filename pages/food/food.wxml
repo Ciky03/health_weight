@@ -1,40 +1,43 @@
 <view class="container">
-  <!-- 搜索栏/食物卡片 -->
-  <view class="search-bar {{selectedFood ? 'food-card' : ''}}">
-    <block wx:if="{{!selectedFood}}">
-      <view class="input-group">
-        <input type="text" class="search-input" placeholder="食物名称" model:value="{{searchText}}" />
-      </view>
-      <view class="input-group">
-        <input type="digit" class="calorie-input" placeholder="0" model:value="{{calories}}" />
-        <text class="unit-text">千卡</text>
-      </view>
-      <view class="search-btn" bindtap="onSearch">
-        <image src="../../utils/images/search.png" mode="aspectFit" class="search-icon"></image>
-      </view>
-    </block>
-    <block wx:else>
-      <view class="food-card-content">
-        <view class="food-header">
-          <text class="food-name">{{selectedFood.name}}</text>
-          <text class="close-btn" bindtap="closeCard">×</text>
+  <!-- 搜索栏列表 -->
+  <block wx:for="{{searchBars}}" wx:key="index">
+    <view class="search-bar {{item.selectedFood ? 'food-card' : ''}}">
+      <block wx:if="{{!item.selectedFood}}">
+        <view class="input-group">
+          <input type="text" class="search-input" placeholder="食物名称" value="{{item.searchText}}" bindinput="onSearchTextChange" data-index="{{index}}" />
         </view>
-                  <view class="calories-info">
-            <text class="food-calories">{{selectedFood.calories}} 千卡/100</text>
+        <view class="input-group">
+          <input type="digit" class="calorie-input" placeholder="0" value="{{item.calories}}" bindinput="onCaloriesChange" data-index="{{index}}" />
+          <text class="unit-text">千卡</text>
+        </view>
+        <view class="search-btn" bindtap="onSearch" data-index="{{index}}">
+          <image src="../../utils/images/search.png" mode="aspectFit" class="search-icon"></image>
+        </view>
+        <view class="delete-btn" bindtap="onDeleteSearchBar" data-index="{{index}}" wx:if="{{index > 0}}">×</view>
+      </block>
+      <block wx:else>
+        <view class="food-card-content">
+          <view class="food-header">
+            <text class="food-name">{{item.selectedFood.name}}</text>
+            <text class="close-btn" bindtap="closeCard" data-index="{{index}}">×</text>
+          </view>
+          <view class="calories-info">
+            <text class="food-calories">{{item.selectedFood.calories}} 千卡/100</text>
             <view class="gram-btn">克</view>
           </view>
-        <view class="amount-control">
-          <view class="minus-btn" bindtap="decreaseAmount">-</view>
-          <input type="number" class="amount-input" value="{{amount}}" bindinput="onAmountChange"/>
-          <view class="plus-btn" bindtap="increaseAmount">+</view>
+          <view class="amount-control">
+            <view class="minus-btn" bindtap="decreaseAmount" data-index="{{index}}">-</view>
+            <input type="number" class="amount-input" value="{{item.amount}}" bindinput="onAmountChange" data-index="{{index}}"/>
+            <view class="plus-btn" bindtap="increaseAmount" data-index="{{index}}">+</view>
+          </view>
+          <view class="total-row">
+            <text class="total-label">总卡路里</text>
+            <text class="total-value">{{item.totalCalories}} kcal</text>
+          </view>
         </view>
-        <view class="total-row">
-          <text class="total-label">总卡路里</text>
-          <text class="total-value">{{totalCalories}} kcal</text>
-        </view>
-      </view>
-    </block>
-  </view>
+      </block>
+    </view>
+  </block>
 
   <!-- 食物列表 -->
   <scroll-view scroll-y class="food-list" wx:if="{{!selectedFood}}">

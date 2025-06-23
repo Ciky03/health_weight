@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: 'http://131ef69d.r7.cpolar.cn'
+  baseUrl: 'http://127.0.0.1:8080'
 };
 
 module.exports = config; 
