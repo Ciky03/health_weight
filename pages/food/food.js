@@ -30,7 +30,44 @@ Page({
   // 卡路里值改变
   onCaloriesChange: function(e) {
     const index = e.currentTarget.dataset.index;
-    const value = e.detail.value;
+    let value = e.detail.value;
+    
+    // 如果是空字符串，直接设置
+    if (value === '') {
+      const searchBars = this.data.searchBars;
+      searchBars[index].calories = '';
+      this.setData({ searchBars });
+      return;
+    }
+    
+    // 移除非数字字符（保留小数点）
+    value = value.replace(/[^\d.]/g, '');
+    
+    // 确保只有一个小数点
+    const parts = value.split('.');
+    if (parts.length > 2) {
+      value = parts[0] + '.' + parts.slice(1).join('');
+    }
+    
+    // 如果以小数点开始，补充0
+    if (value.startsWith('.')) {
+      value = '0' + value;
+    }
+    
+    // 限制小数点后一位
+    if (parts.length === 2 && parts[1].length > 1) {
+      value = parseFloat(value).toFixed(1);
+    }
+    
+    // 限制最大值为9999.9
+    if (parseFloat(value) > 9999.9) {
+      value = '9999.9';
+      wx.showToast({
+        title: '卡路里不能超过9999.9',
+        icon: 'none'
+      });
+    }
+
     const searchBars = this.data.searchBars;
     searchBars[index].calories = value;
     this.setData({ searchBars });
@@ -180,10 +217,94 @@ Page({
 
   // 保存记录
   onSaveRecord: function() {
-    // 这里添加保存记录的逻辑
-    wx.showToast({
-      title: '保存成功',
-      icon: 'success'
+    const searchBars = this.data.searchBars;
+    
+    // 检查是否有数据要保存
+    if (searchBars.length === 0) {
+      wx.showToast({
+        title: '请添加食物记录',
+        icon: 'none'
+      });
+      return;
+    }
+
+    // 获取token
+    const token = app.common.getTokenFromStorageSync();
+    if (!token) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      });
+      return;
+    }
+
+    // 构造请求数据
+    const foods = searchBars.map(bar => {
+      if (bar.selectedFood) {
+        // 搜索状态，使用填写的amount值
+        return {
+          foodName: bar.selectedFood.name,
+          calories: parseFloat(bar.totalCalories),
+          amount: bar.amount
+        };
+      } else {
+        // 未搜索状态，amount设置为null
+        return {
+          foodName: bar.searchText,
+          calories: parseFloat(bar.calories || 0),
+          amount: null
+        };
+      }
+    });
+
+    // 计算总卡路里
+    const totalCalorie = foods.reduce((total, food) => {
+      return total + food.calories;
+    }, 0);
+
+    const requestData = {
+      totalCalorie,
+      foods
+    };
+
+    console.log('准备发送的数据:', requestData);
+
+    // 调用后端接口
+    wx.request({
+      url: `${config.baseUrl}/calorie/intake`,
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token': token
+      },
+      data: requestData,
+      success: (res) => {
+        // 检查token是否过期
+        if (app.common.checkTokenExpire(res.statusCode)) return;
+
+        if (res.statusCode === 200) {
+          wx.showToast({ 
+            title: '记录保存成功', 
+            icon: 'success' 
+          });
+          // 保存成功后返回上一页
+          setTimeout(() => {
+            wx.navigateBack();
+          }, 1500);
+        } else {
+          wx.showToast({ 
+            title: '保存失败，请重试', 
+            icon: 'none' 
+          });
+        }
+      },
+      fail: (err) => {
+        console.error('保存记录失败:', err);
+        wx.showToast({ 
+          title: '网络错误，请重试', 
+          icon: 'none' 
+        });
+      }
     });
   }
 }); 
