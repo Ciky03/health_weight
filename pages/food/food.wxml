@@ -13,7 +13,7 @@
         <view class="search-btn" bindtap="onSearch" data-index="{{index}}">
           <image src="../../utils/images/search.png" mode="aspectFit" class="search-icon"></image>
         </view>
-        <view class="delete-btn" bindtap="onDeleteSearchBar" data-index="{{index}}" wx:if="{{index > 0}}">×</view>
+        <view class="delete-btn" bindtap="onDeleteSearchBar" data-index="{{index}}" wx:if="{{searchBars.length > 1}}">×</view>
       </block>
       <block wx:else>
         <view class="food-card-content">
@@ -34,6 +34,7 @@
             <text class="total-label">总卡路里</text>
             <text class="total-value">{{item.totalCalories}} kcal</text>
           </view>
+          <view class="delete-card-btn" bindtap="onDeleteSearchBar" data-index="{{index}}" wx:if="{{searchBars.length > 1}}">删除</view>
         </view>
       </block>
     </view>

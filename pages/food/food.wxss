@@ -209,4 +209,23 @@
   background: #f3ae58;
   color: #fff;
   border: none;
+}
+
+.delete-btn {
+  font-size: 36rpx;
+  color: #999;
+  padding: 10rpx 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-card-btn {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  text-align: center;
+  color:#f3ae58;
+  font-size: 30rpx;
+  font-weight: 400;
+  border-top: 1rpx solid #eee;
 } 
