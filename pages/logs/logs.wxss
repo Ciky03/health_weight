@@ -20,13 +20,14 @@ page {
   background: #fff;
 }
 
-/* 日期选择器样式 */
+/* 年月选择器 */
 .date-picker {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 20rpx;
+  padding: 20rpx 0;
   background: #fff;
+  border-bottom: 1rpx solid #eee;
 }
 
 .picker-item {
@@ -35,29 +36,10 @@ page {
   padding: 12rpx 30rpx;
   background: #fff;
   border-radius: 8rpx;
-  box-shadow: 0 2rpx 4rpx rgba(0,0,0,0.1);
+  margin: 0 20rpx;
 }
 
-.view-type {
-  display: flex;
-  background: #fff;
-  border-radius: 8rpx;
-  overflow: hidden;
-  box-shadow: 0 2rpx 4rpx rgba(0,0,0,0.1);
-}
-
-.view-type view {
-  padding: 12rpx 40rpx;
-  font-size: 28rpx;
-  color: #666;
-}
-
-.view-type .active {
-  background: #f3ae58;
-  color: #fff;
-}
-
-/* 日历主体样式 */
+/* 日历主体 */
 .calendar {
   padding: 0;
   width: 100%;
@@ -87,108 +69,46 @@ page {
 }
 
 .day-item {
-  height: 90rpx;
+  height: 120rpx;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 32rpx;
-  color: #333;
   position: relative;
+  padding: 10rpx 0;
 }
 
-.day-item.current {
-  font-weight: 500;
+.day-number {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.calorie-value {
+  font-size: 24rpx;
+  color: #f3ae58;
 }
 
 .day-item:not(.current) {
   color: #ccc;
 }
 
-/* 选中状态（空心圆圈） */
-.day-item.selected::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70rpx;
-  height: 70rpx;
-  background: transparent;
-  border: 1rpx solid #333;
-  border-radius: 50%;
-  z-index: 1;
-}
-
 .day-item.selected {
-  color: #333;
-  position: relative;
-  z-index: 2;
+  background: rgba(243, 174, 88, 0.1);
 }
 
-.day-item.today {
-  color: #007AFF;
-  position: relative;
-  z-index: 2;
+.day-item.today .day-number {
+  font-weight: bold;
 }
 
-/* 今天的圆圈（空心） */
-.day-item.today::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70rpx;
-  height: 70rpx;
-  border: 1rpx solid #007AFF;
-  border-radius: 50%;
-  z-index: 1;
-}
-
-/* 选中今天时的样式 */
-.day-item.today.selected::before {
-  border: 1rpx solid #333;
-  background: transparent;
-  z-index: 1;
-}
-
-.day-item.today.selected {
-  color: #333;
-}
-
-/* 小圆点样式 */
-.day-item.hasPoint::after {
-  content: '';
-  position: absolute;
-  bottom: 8rpx;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 8rpx;
-  height: 8rpx;
-  background: #007AFF;
-  border-radius: 50%;
-}
-
-/* 选中状态下的小圆点 */
-.day-item.selected.hasPoint::after {
-  background: #fff;
-}
-
-/* 今天被选中时的小圆点 */
-.day-item.today.selected.hasPoint::after {
-  background: #fff;
-}
-
-/* 时间段选择样式 */
+/* 时间段列表 */
 .time-slots {
-  padding: 0;
   background: #fff;
-  width: 100%;
+  margin-top: 20rpx;
 }
 
 .time-slot-group {
   border-bottom: 1rpx solid #eee;
-  width: 100%;
 }
 
 .time-slot-group:last-child {
@@ -200,12 +120,18 @@ page {
   justify-content: space-between;
   align-items: center;
   padding: 30rpx;
-  font-size: 32rpx;
-  color: #333;
   background: #fff;
-  margin: 0;
-  width: 100%;
-  box-sizing: border-box;
+}
+
+.slot-header {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.period-calories {
+  font-size: 24rpx;
+  color: #f3ae58;
 }
 
 .arrow {
@@ -219,22 +145,48 @@ page {
 }
 
 .time-content {
-  background: #f8f8f8;
-  height: 200rpx;
-  width: 100vw;
-  margin-left: -30rpx;
-  margin-right: -30rpx;
+  background: #fff;
+  padding: 0 30rpx;
 }
 
-.time-item {
-  padding: 24rpx 60rpx;
+.food-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.food-item:last-child {
+  border-bottom: none;
+}
+
+.food-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.food-name {
   font-size: 28rpx;
-  color: #666;
-  border-top: 1rpx solid #eee;
+  color: #333;
 }
 
-.time-item:active {
-  background: #f0f0f0;
+.food-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.food-calories {
+  font-size: 28rpx;
+  color: #f3ae58;
+}
+
+.no-food {
+  text-align: center;
+  color: #999;
+  padding: 30rpx 0;
+  font-size: 28rpx;
 }
 
 /* 联系信息样式 */
