@@ -214,6 +214,11 @@ Page({
             title: '记录保存成功', 
             icon: 'success' 
           });
+          
+          // 更新全局变量的totalCalorie
+          const currentTotalCalorie = parseFloat(app.globalData.totalCalorie) || 0;
+          app.globalData.totalCalorie = (currentTotalCalorie + parseFloat(this.data.totalCalories)).toFixed(1);
+          
           // 保存成功后返回上一页
           setTimeout(() => {
             wx.navigateBack();
