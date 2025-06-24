@@ -244,7 +244,7 @@ Page({
   onCalorieTargetInput(e) {
     const value = e.detail.value;
     // 如果输入的不是数字或是负数，保持原值不变
-    if (value === /^\d*\.?\d*$/.test(value) && Number(value) >= 0) {
+    if (!/^\d*\.?\d*$/.test(value) || Number(value) < 0) {
       return this.data.calorieTarget;
     }
     this.setData({
