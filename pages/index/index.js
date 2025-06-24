@@ -9,12 +9,13 @@ Page({
     fireIcon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMkM4LjEzIDIgNSA1LjEzIDUgOUM1IDEyLjA0IDcuOTQgMTQuODMgMTAuNjEgMTYuMjJDOC44NCAxNi4zNCAxMS4wMiAxNi41MyAxMS4xMyAxNi43NkMxMS42NiAxNy44NyAxMS44MyAxOS40NCAxMiAyMkMxMi4xNyAxOS40NCAxMi4zNCAxNy44NyAxMi44NyAxNi43NkMxMi45OCAxNi41MyAxMy4xNiAxNi4zNCAxMy4zOSAxNi4yMkMxNi4wNiAxNC44MyAxOSAxMi4wNCAxOSAxOUMxOSA1LjEzIDE1Ljg3IDIgMTIgMloiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4=',
     cameraIcon: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEyIDE1QzEzLjY1NjkgMTUgMTUgMTMuNjU2OSAxNSAxMkMxNSAxMC4zNDMxIDEzLjY1NjkgOSAxMiA5QzEwLjM0MzEgOSAxMCAxMC4zNDMxIDEwIDEyQzEwIDEzLjY1NjkgMTAuMzQzMSAxNSAxMiAxNVoiIGZpbGw9ImJsYWNrIi8+PHBhdGggZD0iTTIgN1YxN0MyIDE4LjEwNDYgMi44OTU0MyAxOSA0IDE5SDIwQzIxLjEwNDYgMTkgMjIgMTguMTA0NiAyMiAxN1Y3QzIyIDUuODk1NDMgMjEuMTA0NiA1IDIwIDVIMTcuODI4NEMxNy40MjY0IDUgMTcuMDM5OCA0Ljg2MjAxIDE2LjczNzMgNC42MDk5TDE1LjI2MjcgMy4zOTAxQzE0LjU0MjEgMi43NjY4NiAxMy41NjEyIDIuNSAxMi41NTI4IDIuNUgxMS40NDcyQzEwLjQzODggMi41IDkuNDU3ODkgMi43NjY4NiA4LjczNzMgMy4zOTAxTDcuMjYyNyA0LjYwOTlDNi45NjAyNSA0Ljg2MjAxIDYuNTczNjIgNSA2LjE3MTU3IDVINEEyLjg5NTQzIDUgMiA1uODk1NDMgMiA3WiIgZmlsbD0iYmxhY2siLz48L3N2Zz4=',
     calorieTarget: 0, // 添加卡路里目标数据
-    todayCalorie: 0,  //今日卡路里
+    totalCalorie: 0,  //今日卡路里
     absorbCalorie:0, //已摄入卡路里百分比
     remainCalorie: 0, //剩余卡路里
     weight: 80.2,  //目前体重
     targetWeight: 70.0, //目标体重
-    weightPercent: 0
+    weightPercent: 0,
+    absorbCaloriePercent: 0
   },
 
   onLoad: function () {
@@ -44,8 +45,16 @@ Page({
   updateFromGlobalData: function() {
     const weight = parseFloat(app.globalData.weight) || 0;
     const weekTarget = parseFloat(app.globalData.weekTarget) || 0;
-    const calorieTarget = parseFloat(app.globalData.calorieTarget) || 0;
     const targetWeight = weight + weekTarget;
+    const calorieTarget = app.globalData.calorieTarget || 0;
+    const totalCalorie = app.globalData.totalCalorie || '0';
+    const remainCalorie = (calorieTarget - totalCalorie) >= 0 ? (calorieTarget - totalCalorie) : '0';
+    const absorbCalorie = (totalCalorie/calorieTarget) <= 1?
+    ((totalCalorie/calorieTarget)*100).toFixed(2) : '0';
+    const absorbCaloriePercent = (totalCalorie/calorieTarget) <= 1 ?
+    (totalCalorie/calorieTarget)  : '0';
+
+    
 
     // 计算体重进度条百分比
     let weightPercent = 0;
@@ -59,7 +68,11 @@ Page({
       calorieTarget: calorieTarget,
       weight: weight,
       targetWeight: targetWeight,
-      weightPercent: weightPercent
+      weightPercent: weightPercent,
+      totalCalorie: totalCalorie,
+      remainCalorie: remainCalorie,
+      absorbCalorie: absorbCalorie,
+      absorbCaloriePercent: absorbCaloriePercent
     });
   },
 
@@ -69,7 +82,7 @@ Page({
     const originalGlobalData = app.globalData;
     
     // 使用Object.defineProperty为每个需要监听的属性设置getter和setter
-    ['calorieTarget', 'weight', 'weekTarget'].forEach(key => {
+    ['calorieTarget', 'weight', 'weekTarget','totalCalorie'].forEach(key => {
       let value = originalGlobalData[key];
       Object.defineProperty(app.globalData, key, {
         get: function() {
@@ -102,7 +115,8 @@ Page({
           app.globalData.calorieTarget = res.data.data.dailyCalorie || '0';
           app.globalData.weight = res.data.data.weight || '0';
           app.globalData.weekTarget = res.data.data.weightGoal || '0';
-          
+          app.globalData.totalCalorie = res.data.data.totalCalorie || '0';
+
           // updateFromGlobalData会自动被调用，因为我们设置了观察者
         } else {
           console.error('获取卡路里目标失败:', res.data.msg);

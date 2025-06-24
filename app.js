@@ -47,6 +47,7 @@ App({
     calorieTarget: '0',
     weight: '0',
     weekTarget: '0',
+    totalCalorie: '0',
     isCheckingLogin: false  // 添加标志位，防止重复检查
   },
 
