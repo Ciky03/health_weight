@@ -1,3 +1,4 @@
 {
-  "usingComponents": {}
+  "navigationBarTitleText": "手动搜索",
+  "navigationStyle": "default"
 }
