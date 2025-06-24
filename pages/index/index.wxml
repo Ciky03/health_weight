@@ -15,7 +15,7 @@
       </view>
     </view>
     <view class="info-card__progress-bar">
-      <progress percent="{{absorbCalorie}}" stroke-width="6" activeColor="#f3ae58" backgroundColor="#f0f0f0" border-radius="5"></progress>
+      <progress percent="{{absorbCalorie}}" stroke-width="6" activeColor="{{progressColor}}" backgroundColor="#f0f0f0" border-radius="5"></progress>
     </view>
     <view class="info-card__calorie-stats">
       <text>已摄入{{absorbCalorie}}%</text>

@@ -15,7 +15,8 @@ Page({
     weight: 80.2,  //目前体重
     targetWeight: 70.0, //目标体重
     weightPercent: 0,
-    absorbCaloriePercent: 0
+    absorbCaloriePercent: 0,
+    progressColor: '#f3ae58'
   },
 
   onLoad: function () {
@@ -49,12 +50,11 @@ Page({
     const calorieTarget = app.globalData.calorieTarget || 0;
     const totalCalorie = app.globalData.totalCalorie || '0';
     const remainCalorie = (calorieTarget - totalCalorie) >= 0 ? (calorieTarget - totalCalorie) : '0';
-    const absorbCalorie = (totalCalorie/calorieTarget) <= 1?
-    ((totalCalorie/calorieTarget)*100).toFixed(2) : '0';
-    const absorbCaloriePercent = (totalCalorie/calorieTarget) <= 1 ?
-    (totalCalorie/calorieTarget)  : '0';
-
     
+    // 计算卡路里摄入百分比
+    const absorbCaloriePercent = calorieTarget > 0 ? ((totalCalorie/calorieTarget)*100) : 0;
+    // 确保显示值在0-100之间，并保留两位小数
+    const absorbCalorie = Math.min(Math.max(0, absorbCaloriePercent), 100).toFixed(2);
 
     // 计算体重进度条百分比
     let weightPercent = 0;
@@ -64,6 +64,9 @@ Page({
       weightPercent = (weightPercent * 100).toFixed(2);
     }
 
+    // 根据摄入比例设置进度条颜色
+    const progressColor = parseFloat(absorbCaloriePercent) >= 100 ? '#ff4d4f' : '#f3ae58';
+
     this.setData({
       calorieTarget: calorieTarget,
       weight: weight,
@@ -72,7 +75,7 @@ Page({
       totalCalorie: totalCalorie,
       remainCalorie: remainCalorie,
       absorbCalorie: absorbCalorie,
-      absorbCaloriePercent: absorbCaloriePercent
+      progressColor: progressColor
     });
   },
 
