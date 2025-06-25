@@ -213,21 +213,31 @@ Page({
   // 年份改变
   onYearChange(e) {
     const yearIndex = e.detail.value
+    const selectedYear = parseInt(this.data.years[yearIndex])
+    const firstDayOfMonth = `${selectedYear}-${util.formatNumber(this.data.selectedMonth)}-01`
+    
     this.setData({
       yearIndex,
-      selectedYear: parseInt(this.data.years[yearIndex])
+      selectedYear,
+      selectedDate: firstDayOfMonth
+    }, () => {
+      this.fetchCalendarData()
     })
-    this.generateDays()
   },
 
   // 月份改变
   onMonthChange(e) {
     const monthIndex = e.detail.value
+    const selectedMonth = parseInt(this.data.months[monthIndex])
+    const firstDayOfMonth = `${this.data.selectedYear}-${util.formatNumber(selectedMonth)}-01`
+    
     this.setData({
       monthIndex,
-      selectedMonth: parseInt(this.data.months[monthIndex])
+      selectedMonth,
+      selectedDate: firstDayOfMonth
+    }, () => {
+      this.fetchCalendarData()
     })
-    this.generateDays()
   },
 
   // 切换视图类型
