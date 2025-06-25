@@ -98,7 +98,6 @@ page {
 }
 
 .day-item.selected {
-  background: rgba(243, 174, 88, 0.1);
   position: relative;
 }
 
@@ -112,6 +111,7 @@ page {
   height: 100rpx;
   border-radius: 50%;
   border: 2rpx solid #f3ae58;
+  background-color: rgba(243, 174, 88, 0.1);
   z-index: 1;
 }
 
@@ -120,14 +120,49 @@ page {
   font-weight: bold;
 }
 
+.day-item.today {
+  position: relative;
+}
+
+.day-item.today::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  z-index: 1;
+}
+
 .day-item.today .day-number {
   font-weight: bold;
+  position: relative;
+  z-index: 2;
+}
+
+.day-item.today .calorie-value {
+  position: relative;
+  z-index: 2;
+}
+
+/* 如果日期既是当日又是选中状态 */
+.day-item.today.selected::after {
+  background-color: rgba(243, 174, 88, 0.1);
+  border: 2rpx solid #f3ae58;
+}
+
+.day-item.today.selected .day-number {
+  color: #f3ae58;
 }
 
 /* 时间段列表 */
 .time-slots {
   background: #fff;
   margin-top: 20rpx;
+  width: 100%;
 }
 
 .time-slot-group {
@@ -144,16 +179,25 @@ page {
   align-items: center;
   padding: 30rpx;
   background: #fff;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.slot-header {
+.period-label {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 500;
+  width: 100rpx;
+}
+
+.period-info {
   display: flex;
   align-items: center;
   gap: 20rpx;
 }
 
 .period-calories {
-  font-size: 24rpx;
+  font-size: 28rpx;
   color: #f3ae58;
 }
 
@@ -161,54 +205,60 @@ page {
   color: #ccc;
   font-size: 28rpx;
   transition: transform 0.3s ease;
+  padding-left: 20rpx;
 }
 
 .arrow.expanded {
   transform: rotate(90deg);
 }
 
-.time-content {
+.food-list {
   background: #fff;
   padding: 0 30rpx;
 }
 
-.food-item {
+.food-record {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20rpx 0;
+  padding: 20rpx 0 20rpx 20rpx;  /* 左侧padding与时段标签对齐 */
   border-bottom: 1rpx solid #eee;
 }
 
-.food-item:last-child {
+.food-record:last-child {
   border-bottom: none;
-}
-
-.food-info {
-  display: flex;
-  flex-direction: column;
-  gap: 8rpx;
 }
 
 .food-name {
   font-size: 28rpx;
   color: #333;
+  flex: 1;
 }
 
-.food-time {
-  font-size: 24rpx;
-  color: #999;
+.food-details {
+  display: flex;
+  align-items: center;
+  gap: 30rpx;
 }
 
 .food-calories {
   font-size: 28rpx;
   color: #f3ae58;
+  min-width: 120rpx;
+  text-align: right;
+}
+
+.food-time {
+  font-size: 24rpx;
+  color: #999;
+  min-width: 100rpx;
+  text-align: right;
 }
 
 .no-food {
   text-align: center;
   color: #999;
-  padding: 30rpx 0;
+  padding: 30rpx 0 30rpx 0rpx;  /* 左侧padding与时段标签对齐 */
   font-size: 28rpx;
 }
 

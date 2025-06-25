@@ -8,9 +8,9 @@
     <picker mode="selector" range="{{months}}" value="{{monthIndex}}" bindchange="onMonthChange">
       <view class="picker-item">{{selectedMonth}}月</view>
     </picker>
-    <view class="view-type">
+    <!-- <view class="view-type">
       <view class="{{viewType === 'month' ? 'active' : ''}}" bindtap="switchViewType" data-type="month">月</view>
-    </view>
+    </view> -->
   </view>
 
   <!-- 日历主体 -->
@@ -35,20 +35,20 @@
     <!-- 上午 -->
     <view class="time-slot-group">
       <view class="time-slot {{expandedSlot === '上午' ? 'expanded' : ''}}" bindtap="toggleTimeSlot" data-time="上午">
-        <view class="slot-header">
-          <text>上午</text>
+        <text class="period-label">上午</text>
+        <view class="period-info">
           <text class="period-calories" wx:if="{{periodCalories.morning > 0}}">{{periodCalories.morning}}千卡</text>
+          <view class="arrow {{expandedSlot === '上午' ? 'expanded' : ''}}">></view>
         </view>
-        <view class="arrow {{expandedSlot === '上午' ? 'expanded' : ''}}">></view>
       </view>
-      <view class="time-content" wx:if="{{expandedSlot === '上午'}}">
+      <view class="food-list" wx:if="{{expandedSlot === '上午'}}">
         <block wx:for="{{dailyCalorieDetail.todayDetails}}" wx:key="index">
-          <view class="food-item" wx:if="{{item.intakePeriod === 0}}">
-            <view class="food-info">
-              <text class="food-name">{{item.foodName}}</text>
+          <view class="food-record" wx:if="{{item.intakePeriod === 0}}">
+            <text class="food-name">{{item.foodName}}</text>
+            <view class="food-details">
+              <text class="food-calories">{{item.calories}}千卡</text>
               <text class="food-time">{{item.intakeTime}}</text>
             </view>
-            <text class="food-calories">{{item.calories}}千卡</text>
           </view>
         </block>
         <view class="no-food" wx:if="{{!periodCalories.morning}}">暂无记录</view>
@@ -58,20 +58,20 @@
     <!-- 中午 -->
     <view class="time-slot-group">
       <view class="time-slot {{expandedSlot === '中午' ? 'expanded' : ''}}" bindtap="toggleTimeSlot" data-time="中午">
-        <view class="slot-header">
-          <text>中午</text>
+        <text class="period-label">中午</text>
+        <view class="period-info">
           <text class="period-calories" wx:if="{{periodCalories.noon > 0}}">{{periodCalories.noon}}千卡</text>
+          <view class="arrow {{expandedSlot === '中午' ? 'expanded' : ''}}">></view>
         </view>
-        <view class="arrow {{expandedSlot === '中午' ? 'expanded' : ''}}">></view>
       </view>
-      <view class="time-content" wx:if="{{expandedSlot === '中午'}}">
+      <view class="food-list" wx:if="{{expandedSlot === '中午'}}">
         <block wx:for="{{dailyCalorieDetail.todayDetails}}" wx:key="index">
-          <view class="food-item" wx:if="{{item.intakePeriod === 1}}">
-            <view class="food-info">
-              <text class="food-name">{{item.foodName}}</text>
+          <view class="food-record" wx:if="{{item.intakePeriod === 1}}">
+            <text class="food-name">{{item.foodName}}</text>
+            <view class="food-details">
+              <text class="food-calories">{{item.calories}}千卡</text>
               <text class="food-time">{{item.intakeTime}}</text>
             </view>
-            <text class="food-calories">{{item.calories}}千卡</text>
           </view>
         </block>
         <view class="no-food" wx:if="{{!periodCalories.noon}}">暂无记录</view>
@@ -81,20 +81,20 @@
     <!-- 下午 -->
     <view class="time-slot-group">
       <view class="time-slot {{expandedSlot === '下午' ? 'expanded' : ''}}" bindtap="toggleTimeSlot" data-time="下午">
-        <view class="slot-header">
-          <text>下午</text>
+        <text class="period-label">下午</text>
+        <view class="period-info">
           <text class="period-calories" wx:if="{{periodCalories.afternoon > 0}}">{{periodCalories.afternoon}}千卡</text>
+          <view class="arrow {{expandedSlot === '下午' ? 'expanded' : ''}}">></view>
         </view>
-        <view class="arrow {{expandedSlot === '下午' ? 'expanded' : ''}}">></view>
       </view>
-      <view class="time-content" wx:if="{{expandedSlot === '下午'}}">
+      <view class="food-list" wx:if="{{expandedSlot === '下午'}}">
         <block wx:for="{{dailyCalorieDetail.todayDetails}}" wx:key="index">
-          <view class="food-item" wx:if="{{item.intakePeriod === 2}}">
-            <view class="food-info">
-              <text class="food-name">{{item.foodName}}</text>
+          <view class="food-record" wx:if="{{item.intakePeriod === 2}}">
+            <text class="food-name">{{item.foodName}}</text>
+            <view class="food-details">
+              <text class="food-calories">{{item.calories}}千卡</text>
               <text class="food-time">{{item.intakeTime}}</text>
             </view>
-            <text class="food-calories">{{item.calories}}千卡</text>
           </view>
         </block>
         <view class="no-food" wx:if="{{!periodCalories.afternoon}}">暂无记录</view>
@@ -104,20 +104,20 @@
     <!-- 晚上 -->
     <view class="time-slot-group">
       <view class="time-slot {{expandedSlot === '晚上' ? 'expanded' : ''}}" bindtap="toggleTimeSlot" data-time="晚上">
-        <view class="slot-header">
-          <text>晚上</text>
+        <text class="period-label">晚上</text>
+        <view class="period-info">
           <text class="period-calories" wx:if="{{periodCalories.evening > 0}}">{{periodCalories.evening}}千卡</text>
+          <view class="arrow {{expandedSlot === '晚上' ? 'expanded' : ''}}">></view>
         </view>
-        <view class="arrow {{expandedSlot === '晚上' ? 'expanded' : ''}}">></view>
       </view>
-      <view class="time-content" wx:if="{{expandedSlot === '晚上'}}">
+      <view class="food-list" wx:if="{{expandedSlot === '晚上'}}">
         <block wx:for="{{dailyCalorieDetail.todayDetails}}" wx:key="index">
-          <view class="food-item" wx:if="{{item.intakePeriod === 3}}">
-            <view class="food-info">
-              <text class="food-name">{{item.foodName}}</text>
+          <view class="food-record" wx:if="{{item.intakePeriod === 3}}">
+            <text class="food-name">{{item.foodName}}</text>
+            <view class="food-details">
+              <text class="food-calories">{{item.calories}}千卡</text>
               <text class="food-time">{{item.intakeTime}}</text>
             </view>
-            <text class="food-calories">{{item.calories}}千卡</text>
           </view>
         </block>
         <view class="no-food" wx:if="{{!periodCalories.evening}}">暂无记录</view>
