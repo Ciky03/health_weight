@@ -23,9 +23,9 @@ Page({
     });
 
     //测试阶段,跳过调用登录接口
-    // wx.reLaunch({
-    //   url: '/pages/index/index'
-    // });
+    wx.reLaunch({
+      url: '/pages/index/index'
+    });
     wx.getUserProfile({
       desc: '用于完善用户资料',
       success: (userRes) => {

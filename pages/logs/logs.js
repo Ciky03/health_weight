@@ -149,6 +149,22 @@ Page({
     });
   },
 
+  // 添加onShow生命周期函数
+  onShow() {
+    // 获取当前页面实例
+    const pages = getCurrentPages();
+    const currentPage = pages[pages.length - 1];
+    
+    // 如果页面有lastTotalCalorie属性，且与全局变量不同，说明数据有更新
+    if (typeof currentPage.lastTotalCalorie === 'undefined' || 
+        currentPage.lastTotalCalorie !== app.globalData.totalCalorie) {
+      // 更新lastTotalCalorie
+      currentPage.lastTotalCalorie = app.globalData.totalCalorie;
+      // 重新获取日历数据
+      this.fetchCalendarData();
+    }
+  },
+
   // 生成日历天数
   generateDays() {
     const { selectedYear, selectedMonth, selectedDate, monthSummary } = this.data
