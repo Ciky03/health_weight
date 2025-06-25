@@ -64,29 +64,33 @@ page {
 .days-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 10rpx 0;
+  padding: 5rpx 0;
   background: #fff;
 }
 
 .day-item {
-  height: 120rpx;
+  height: 100rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 10rpx 0;
+  padding: 5rpx 0;
 }
 
 .day-number {
   font-size: 32rpx;
   color: #333;
-  margin-bottom: 8rpx;
+  margin-bottom: 4rpx;
+  position: relative;
+  z-index: 2;
 }
 
 .calorie-value {
   font-size: 24rpx;
   color: #f3ae58;
+  position: relative;
+  z-index: 2;
 }
 
 .day-item:not(.current) {
@@ -95,6 +99,25 @@ page {
 
 .day-item.selected {
   background: rgba(243, 174, 88, 0.1);
+  position: relative;
+}
+
+.day-item.selected::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  border: 2rpx solid #f3ae58;
+  z-index: 1;
+}
+
+.day-item.selected .day-number {
+  color: #f3ae58;
+  font-weight: bold;
 }
 
 .day-item.today .day-number {

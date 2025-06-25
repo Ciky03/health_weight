@@ -251,12 +251,12 @@ Page({
     const date = e.currentTarget.dataset.date
     if (!date.current) return
     
-    const dateStr = `${this.data.selectedYear}-${this.data.selectedMonth}-${date.day}`
+    const dateStr = `${this.data.selectedYear}-${util.formatNumber(this.data.selectedMonth)}-${util.formatNumber(date.day)}`
     
     this.setData({
-      selectedDate: dateStr // 更新选中的日期（圆圈）
+      selectedDate: dateStr
     }, () => {
-      this.generateDays()
+      this.fetchCalendarData()
     })
   },
 
