@@ -15,7 +15,7 @@
       </view>
     </view>
     <view class="info-card__progress-bar">
-      <progress percent="{{absorbCalorie}}" stroke-width="6" activeColor="{{progressColor}}" backgroundColor="#f0f0f0" border-radius="5"></progress>
+      <progress percent="{{absorbCalorie}}" stroke-width="6" activeColor="{{progressColor}}" backgroundColor="{{progressBgColor}}" border-radius="5"></progress>
     </view>
     <view class="info-card__calorie-stats">
       <text>已摄入{{absorbCalorie}}%</text>
@@ -25,13 +25,13 @@
       <text class="info-card__weight-loss-status">减重中</text>
       <view class="info-card__weight-progress">
         <text>{{weight}}kg</text>
-        <progress percent="{{weightPercent}}" stroke-width="6" activeColor="#f3ae58" backgroundColor="#f0f0f0" border-radius="5" class="weight-progress-bar"></progress>
+        <progress percent="{{weightPercent}}" stroke-width="6" activeColor="#f3ae58" backgroundColor="{{progressBgColor}}" border-radius="5" class="weight-progress-bar"></progress>
         <text>{{targetWeight}}kg</text>
       </view>
     </view>
   </view>
 
-  <view class="card action-card" bindtap="takePhoto">
+  <view class="card  photo-action-card" bindtap="takePhoto">
     <view class="action-card__icon">
       <image src="../../utils/images/camera.png" class="action-card__icon-image camera-icon"></image>
     </view>
@@ -41,7 +41,7 @@
     </view>
   </view>
 
-  <view class="card action-card" bindtap="manualInput">
+  <view class="card input-action-card" bindtap="manualInput">
     <view class="action-card__icon">
        <image src="../../utils/images/pen.png" class="action-card__icon-image"></image>
     </view>

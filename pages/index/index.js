@@ -16,7 +16,8 @@ Page({
     targetWeight: 70.0, //目标体重
     weightPercent: 0,
     absorbCaloriePercent: 0,
-    progressColor: '#f3ae58'
+    progressColor: '#f3ae58',
+    progressBgColor: '#fff5e6'  // 添加进度条背景色（浅橙色）
   },
 
   onLoad: function () {
